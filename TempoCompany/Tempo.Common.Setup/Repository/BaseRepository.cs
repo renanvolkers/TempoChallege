@@ -3,7 +3,13 @@ using System.Linq.Expressions;
 using Tempo.Common.Setup.Respository;
 namespace Tempo.Common.Setup.Service
 {
-
+    /// <summary>
+    /// code reuse in entity repository classes, avoid repeating code
+    /// This is class generic
+    /// Signing of contracts
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="Key"></typeparam>
     public class BaseRepository<IDataBaseContext, TEntity, Key> : IBaseRepository<TEntity, Key>
         where TEntity : class
         where IDataBaseContext : DbContext
