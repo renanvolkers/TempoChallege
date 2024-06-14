@@ -7,6 +7,9 @@ using Tempo.Knight.Dto.Responses;
 
 namespace Tempo.Knight.Application.Domain.Knights
 {
+    /// <summary>
+    /// Serivces disponible for Controllers
+    /// </summary>
     public interface IKnightService : ITempoBaseService<Knight.Domain.Model.Knight,ResponseKnight>
     {
         Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string Filter = "");
