@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tempo.Common.Setup\Tempo.Common.Setup.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Application\Tempo.Knight.Application.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Domain\Tempo.Knight.Domain.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Dto\Tempo.Knight.Dto.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Infra\Tempo.Knight.Infra.csproj" />
+  </ItemGroup>
+
 </Project>

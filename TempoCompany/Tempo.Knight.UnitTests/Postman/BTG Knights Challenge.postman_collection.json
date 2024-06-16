@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "e4f83b21-36a1-4a78-8af6-f87c723c963e",
+		"name": "BTG Knights Challenge",
+		"description": "Desenvolvido em .NET 8 Web API Knights visa o controle/gerenciamento de cadastro de heróis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1887814",
+		"_collection_link": "https://solar-spaceship-824134.postman.co/workspace/Challenge~2927d79d-da14-4d6b-a101-77fc7d56197c/collection/1887814-e4f83b21-36a1-4a78-8af6-f87c723c963e?action=share&source=collection_link&creator=1887814"
+	},
+	"item": [
+		{
+			"name": "knights",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Get ID unique knight",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/knights/:id?=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"knights",
+										":id"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": ""
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "c13b4516-4035-4a6c-b471-d40a8f90fbf0"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/knights/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"knights",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete knight",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/knights/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"knights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) Remove a warrior. This warrior must enter the Hall of Heroes."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/knights/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"knights",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Allows you to change the nickname.",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nickname\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/knights/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"knights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nickname\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/knights/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"knights",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Displays the list of all knights. If the parameter filter does not pass.\r\nDisplays a list containing only warriors who have become heroes.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/knights",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"knights"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/knights?filter=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"knights"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "",
+											"description": "Displays a list containing only warriors who have become heroes."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Creates knight request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"birthday\": \"<dateTime>\",\n  \"weapons\": [\n    {\n      \"attr\": \"<string>\",\n      \"name\": \"<string>\",\n      \"mod\": \"<integer>\",\n      \"equipped\": \"<boolean>\"\n    },\n    {\n      \"attr\": \"<string>\",\n      \"name\": \"<string>\",\n      \"mod\": \"<integer>\",\n      \"equipped\": \"<boolean>\"\n    }\n  ],\n  \"attributes\": {\n    \"Duis1\": \"<integer>\",\n    \"dolore__6\": \"<integer>\"\n  },\n  \"keyAttribute\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/knights",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"knights"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"birthday\": \"<dateTime>\",\n  \"weapons\": [\n    {\n      \"attr\": \"<string>\",\n      \"name\": \"<string>\",\n      \"mod\": \"<integer>\",\n      \"equipped\": \"<boolean>\"\n    },\n    {\n      \"attr\": \"<string>\",\n      \"name\": \"<string>\",\n      \"mod\": \"<integer>\",\n      \"equipped\": \"<boolean>\"\n    }\n  ],\n  \"attributes\": {\n    \"Duis1\": \"<integer>\",\n    \"dolore__6\": \"<integer>\"\n  },\n  \"keyAttribute\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/knights",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"knights"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:9001"
+		}
+	]
+}
