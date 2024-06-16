@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tempo.Common.Setup\Tempo.Common.Setup.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Domain\Tempo.Knight.Domain.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Dto\Tempo.Knight.Dto.csproj" />
+  </ItemGroup>
+
 </Project>
