@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -10,7 +10,32 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
+
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\images\TempoGame.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\swagger-ui\custom.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tempo.Common.Setup\Tempo.Common.Setup.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Application\Tempo.Knight.Application.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Domain\Tempo.Knight.Domain.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Dto\Tempo.Knight.Dto.csproj" />
+    <ProjectReference Include="..\Tempo.Knight.Infra\Tempo.Knight.Infra.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
 
 </Project>

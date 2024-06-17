@@ -1,0 +1,14 @@
+.swagger-ui .topbar {
+    background: #041e42;
+    padding: 10px;
+}
+
+.swagger-ui .topbar a {
+    content: url('/images/TempoGame.png');
+    width: 135px;
+    height: auto;
+}
+
+.swagger-ui {
+    background: #e6d6fbf5
+}
