@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tempo.Common.Setup.Service;
+﻿using Tempo.Common.Setup.Service;
 using Tempo.Knight.Domain.Repositories;
 
 namespace Tempo.Knight.Infra.Repositories
