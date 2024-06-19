@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
+using Tempo.Knight.Infra;
 using Tempo.Knight.Infra.Repositories;
 using Tempo.Knight.UnitTests.Fake;
 using Xunit;
@@ -52,9 +53,5 @@ namespace Tempo.Knight.UnitTests.Repositories
         }
     }
 
-    // Example of a DbContext for EF Core
-    public class KnightDbContext : DbContext
-    {
-        public DbSet<Domain.Model.Knight> Knights { get; set; }
-    }
+
 }

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "e4f83b21-36a1-4a78-8af6-f87c723c963e",
-		"name": "BTG Knights Challenge",
+		"name": "Tempo Knights Challenge",
 		"description": "Desenvolvido em .NET 8 Web API Knights visa o controle/gerenciamento de cadastro de heróis",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1887814",
