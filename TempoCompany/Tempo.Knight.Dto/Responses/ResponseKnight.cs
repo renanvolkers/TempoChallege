@@ -9,7 +9,7 @@ namespace Tempo.Knight.Dto.Responses
         public  string Name { get; set; }
         public  string Nickname { get; set; }
         public DateTime Birthday { get; set; }
-        public int Age { get; set; }
+        public int Age { get => (DateTime.Today.Year - Birthday.Year); }
         public int Attack { get; set; }
         public int Experience { get; set; }
         public  List<ResponseWeapon> Weapons { get; set; }
@@ -18,13 +18,12 @@ namespace Tempo.Knight.Dto.Responses
         public bool HallOfHeroes { get; set; }
 
         [SetsRequiredMembers]
-        public ResponseKnight(Guid id,string name, string nickname, DateTime birthday,int age, List<ResponseWeapon> weapons,string keyAttribute, Dictionary<string, int> attributes,bool hallOfHeroes, int expirience, int attack)
+        public ResponseKnight(Guid id,string name, string nickname, DateTime birthday, List<ResponseWeapon> weapons,string keyAttribute, Dictionary<string, int> attributes,bool hallOfHeroes, int expirience, int attack)
         {
             Id = id;
             Name = name;
             Nickname = nickname;
             Birthday = birthday;
-            Age = age;
             Weapons = weapons;
             KeyAttribute = keyAttribute;
             Attributes = attributes;
