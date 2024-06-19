@@ -10,9 +10,9 @@ namespace Tempo.Knight.Infra.Repositories
     /// Responsability for acess database objet/entity Kninghts
     /// Here we were using generic herence the DAD
     /// </summary>
-    public class KnightsRepository : BaseRepository<DbContext, Domain.Model.Knight, Guid>, IKnightsRepository
+    public class KnightsRepository : BaseRepository<KnightDbContext, Domain.Model.Knight, Guid>, IKnightsRepository
     {
-        public KnightsRepository(DbContext context) : base(context) { }
+        public KnightsRepository(KnightDbContext context) : base(context) { }
 
     }
 }
