@@ -63,6 +63,7 @@ try
 
   
     app.UseSwagger();
+    app.UseExceptionHandler();
     app.UseStaticFiles();//Primordial para exibir configuração de layout no swagger.
     app.UseSwaggerUI(opt =>
     {
