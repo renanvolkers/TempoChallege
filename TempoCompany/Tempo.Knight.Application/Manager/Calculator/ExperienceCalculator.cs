@@ -13,10 +13,11 @@ namespace Tempo.Knight.Application.Manager.Calculator
         // Rule define hipotectic de values.
         public int CalculateExperience(Knight.Domain.Model.Knight  knight)
         {
-            if (knight.Age < 7)
+            var age = (DateTime.Today.Year - knight.Birthday.Year);
+            if (age < 7)
                 return 0;
 
-            return (int)Math.Floor((knight.Age - 7) * Math.Pow(22, 1.45));
+            return (int)Math.Floor((age - 7) * Math.Pow(22, 1.45));
         }
     }
 }
