@@ -23,7 +23,7 @@ namespace Tempo.Knight.Api.Controllers
         /// Displays a list containing only warriors who have become heroes.. 
         /// </summary>
         /// <param name="filter">Displays a list containing only warriors who have become heroes. </param>
-        /// <returns>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> FilterKnightsAsync([FromQuery]  string  filter="" )
         {
@@ -33,7 +33,7 @@ namespace Tempo.Knight.Api.Controllers
         /// Creates knight request
         /// </summary>
         /// <param name="request">The knight request to create</param>
-        /// <returns>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostKnightsAsync(RequestKnight request)
         {

@@ -11,7 +11,6 @@ namespace Tempo.Knight.Api.Config
     /// <summary>
     /// Configuration request, response with AutoMapper.
     /// </summary>
-    /// <param name="services"></param>
     public class MappingProfile : Profile
     {
         public MapperConfiguration mapperConfig { get; set; }

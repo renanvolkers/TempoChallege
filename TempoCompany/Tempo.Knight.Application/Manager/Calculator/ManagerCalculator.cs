@@ -34,7 +34,6 @@ namespace Tempo.Knight.Application.Manager.Calculator
                  x.Name,
                  x.Nickname,
                  x.Birthday,
-                 x.Age,
                 _mapper.Map<List<ResponseWeapon>>(x.Weapons),
                 x.KeyAttribute,
                  x.Attributes,
