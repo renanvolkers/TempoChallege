@@ -11,13 +11,12 @@ namespace Tempo.Knight.Infra
         public static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration configuration)
         {
             // Register the DataBaseConfig as a configuration instance
-            services.Configure<DataBaseConfig>(configuration.GetSection("DataBaseConfig"));
-
-            // Register the DbContext with the connection string from DataBaseConfig
+            services.AddSingleton<IDataBaseConfig>(sp => sp.GetRequiredService<IOptions<DataBaseConfig>>().Value);
+            var applicationSetting = configuration.GetSection("DataBaseConfig").Get<DataBaseConfig>() ?? new DataBaseConfig("", "");
+            //// Register the DbContext with the connection string from DataBaseConfig
             services.AddDbContext<KnightDbContext>((serviceProvider, options) =>
             {
-                var databaseConfig = serviceProvider.GetRequiredService<IOptions<DataBaseConfig>>().Value;
-                options.UseSqlServer(databaseConfig.ConnectionString);
+                options.UseSqlServer(applicationSetting.ConnectionString);
             });
 
             // Optionally, register other services here
