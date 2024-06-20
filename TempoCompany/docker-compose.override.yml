@@ -1,0 +1,22 @@
+# version: '3.4'
+
+services:
+  tempo.knight.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=9000
+      - ASPNETCORE_HTTPS_PORTS=9000
+      - ConnectionStrings__DefaultConnection=Server=localhost,1433;Database=TempoChallengeKnights;User Id=sa;Password=SqlServer2019!;TrustServerCertificate=True;
+
+    ports:
+      - "9000"
+      - "9001"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    networks:
+      - TempoKnights_default
+  
+networks:
+  TempoKnights_default:
+    external: true

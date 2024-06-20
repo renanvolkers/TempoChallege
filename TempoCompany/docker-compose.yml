@@ -1,0 +1,21 @@
+services:
+  tempo.knight.api:
+    image: ${DOCKER_REGISTRY-}tempo-knights-api
+    build:
+      context: .
+      dockerfile: Tempo.Knight.Api/Dockerfile
+    ports:
+       - "9000:9000"     
+       - "9001:9001"
+    environment:
+      - ASPNETCORE_URLS=http://+:9000
+      - ASPNETCORE_URLS=https://+:9001
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MSSQL_SA_PASSWORD=SqlServer2019!
+      - ConnectionStrings__DefaultConnection=Server=localhost,1433;Database=TempoChallengeKnights;User Id=sa;Password=SqlServer2019!;TrustServerCertificate=True;
+    networks:
+      - TempoKnights_default
+  
+networks:
+  TempoKnights_default:
+    external: true
