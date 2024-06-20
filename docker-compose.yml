@@ -1,0 +1,58 @@
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      SA_PASSWORD: "SqlServer2019!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "${DOCKER_SQL_PORT:-1433}:1433"
+
+  mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./01-BaseTempo.sql:/tmp/01-BaseTempo.sql
+      - ./02-BaseTempo.sql:/tmp/02-BaseTempo.sql
+      - ./init-baseTempo.sh:/tmp/init-baseTempo.sh
+    command: /bin/bash ./tmp/init-baseTempo.sh    
+
+networks:
+    TempoKnights_default:
+      external: true
+
+
+
+
+  # tempo.knights.api:
+  #   image: ${DOCKER_REGISTRY-}tempo-knights-api
+  #   build:
+  #     context: ./tempoCompany
+  #     dockerfile: ./Tempo.Knight.Api/Dockerfile
+  #   ports:
+  #      - "9000:9000"     
+  #      - "9001:9001"
+  #   environment:
+  #     - ASPNETCORE_URLS=http://+:9000
+  #     - ASPNETCORE_URLS=https://+:9001
+  #     - ASPNETCORE_ENVIRONMENT=Development- 
+  #   depends_on:
+  #     - sqlserver
+  #   networks:
+  #     - tempoknights_default
+
+  # app:
+  #   build: 
+  #      context: ./FrontEnd
+  #      dockerfile: ./knights-app/Dockerfile
+  #   volumes:
+  #           - ./FrontEnd/knights-app:/app 
+  #   working_dir: /app
+  #   ports:
+  #       - 8080:8080
+  #   command: ['yarn','serve']
+  #   environment:
+  #    - VUE_APP_BACKEND_URL=https://localhost:9001
+
