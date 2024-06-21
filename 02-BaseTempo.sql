@@ -11,13 +11,13 @@ GO
 
  -- Inserir uma Weapon
  INSERT INTO Weapons (Id, Name, Mod, Attr, Equipped, KnightId)
- VALUES (NEWID(), 'Excalibur', 10, 'Strength', 1, 'id-do-knight-aqui');
+ VALUES (NEWID(), 'Excalibur', 10, 'Strength', 1, (SELECT TOP 1 Id FROM Knights));
 
  -- Inserir um KnightAttribute
- INSERT INTO KnightAttributes (KnightId, AttributeId, Value)
+ INSERT INTO KnightAttribute (KnightId, AttributeId, Value)
  VALUES (
-     (SELECT TOP 1 KnightId FROM Knight),
-     (SELECT TOP 1 AttributeId FROM Attribute),
+     (SELECT TOP 1 Id FROM Knights),
+     (SELECT TOP 1 Id FROM Attributes),
      100
  );
 
