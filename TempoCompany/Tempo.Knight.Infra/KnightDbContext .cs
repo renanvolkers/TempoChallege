@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Tempo.Knight.Domain.Model;
 
 
 namespace Tempo.Knight.Infra
@@ -14,13 +15,28 @@ namespace Tempo.Knight.Infra
 
         public DbSet<Domain.Model.Knight> Knights { get; set; }
         public DbSet<Domain.Model.Attribute> Attributes { get; set; }
-
+        public DbSet<Weapon> Weapons { get; set; }
+        public DbSet<KnightAttribute> KnightAttributes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Domain.Model.Knight>().ToTable("Knights");
-            modelBuilder.Entity<Domain.Model.Attribute>().ToTable("Attributes");
+
+            modelBuilder.Entity<KnightAttribute>()
+                .HasKey(ka => new { ka.KnightId, ka.AttributeId });
+
+            modelBuilder.Entity<Domain.Model.Knight>()
+            .HasKey(ka => ka.Id);
+
+
+            modelBuilder.Entity<Domain.Model.Knight>()
+                .HasMany(k => k.Weapons)
+                .WithOne(w => w.Knight)
+                .HasForeignKey(w => w.KnightId);
+
+            modelBuilder.Entity<Domain.Model.Attribute>()
+               .HasIndex(k => k.Name)
+               .IsUnique();
         }
     }
 }
