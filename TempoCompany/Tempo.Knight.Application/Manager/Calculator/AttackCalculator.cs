@@ -13,7 +13,7 @@ namespace Tempo.Knight.Application.Manager.Calculator
         public int CalculateAttack(Knight.Domain.Model.Knight knight)
         {
             int keyAttributeModifier = GetAttributeModifier(knight.Attributes.GetValueOrDefault(knight.KeyAttribute,0));
-            int equippedWeaponModifier = knight.Weapons.Where(w => w.Equipped).Sum(w => w.Mod);
+            int equippedWeaponModifier = knight.Weapons?.Where(w => w.Equipped)?.Sum(w => w.Mod) ?? 0;
 
             return 10 + keyAttributeModifier + equippedWeaponModifier;
         }
