@@ -1,9 +1,9 @@
-services:
-  btg.knights.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=9000
-      - ASPNETCORE_HTTPS_PORTS=9001
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+# services:
+  # btg.knights.api:
+    # environment:
+      # - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_HTTP_PORTS=9000
+      # - ASPNETCORE_HTTPS_PORTS=9001
+    # volumes:
+      # - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      # - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

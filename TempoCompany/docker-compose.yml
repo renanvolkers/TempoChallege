@@ -11,8 +11,6 @@ services:
       - ASPNETCORE_URLS=http://+:9000
       - ASPNETCORE_URLS=https://+:9001
       - ASPNETCORE_ENVIRONMENT=Development
-      - MSSQL_SA_PASSWORD=SqlServer2019!
-      - ConnectionStrings__DefaultConnection=Server=localhost,1433;Database=TempoChallengeKnights;User Id=sa;Password=SqlServer2019!;TrustServerCertificate=True;
     networks:
       - TempoKnights_default
   
