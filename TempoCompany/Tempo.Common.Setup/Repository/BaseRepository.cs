@@ -56,13 +56,24 @@ namespace Tempo.Common.Setup.Service
 
         public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? where =null, params string[] includes)
         {
-            return await context.Set<TEntity>().AsQueryable().ToListAsync();
+            IQueryable<TEntity> query = context.Set<TEntity>();
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<TEntity?> GetByIdAsync(Key id)
         {
+
             return await context.FindAsync<TEntity>(id);
         }
+
 
 
 

@@ -36,10 +36,9 @@ namespace Tempo.Knight.Application.Services.Knights
 
         public async Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string filter = "")
         {
-
+            string [] includes = ["Weapons", "Attributes"];
             _filterStrategy.InputFilter(filter);
-            var result = (await _repository.GetAllAsync(_filterStrategy.ToExpression()));
-
+            var result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
             var viewModelResults = new BaseResponse<List<ResponseKnight>>
             {
                 Data = _managerCalculator.Calculator(result).ToList(),
