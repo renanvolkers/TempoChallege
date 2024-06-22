@@ -30,7 +30,13 @@ namespace Tempo.Common.Setup.Service
             await context.SaveChangesAsync();
             return entity;
         }
+        public async Task<List<TEntity>> AddAsync(List<TEntity> entityList, params Expression<Func<TEntity, object?>>[] references)
+        {
 
+            await context.AddRangeAsync(entityList);
+            await context.SaveChangesAsync();
+            return entityList;
+        }
         public async Task<bool> DeleteAsync(Key id)
         {
             var item = await this.GetByIdAsync(id);
