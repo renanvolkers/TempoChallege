@@ -41,14 +41,15 @@ CREATE TABLE dbo.Weapons (
 -- Tabela Attribute
 CREATE TABLE dbo.Attributes (
     Id UNIQUEIDENTIFIER PRIMARY KEY,
-    Name NVARCHAR(255) NOT NULL
+    Name NVARCHAR(255) NOT NULL,   
+	Value INT NOT NULL,
+
 );
 
 -- Tabela KnightAttribute
-CREATE TABLE dbo.KnightAttribute (
+CREATE TABLE dbo.KnightAttributes (
     KnightId UNIQUEIDENTIFIER NOT NULL,
     AttributeId UNIQUEIDENTIFIER NOT NULL,
-    Value INT NOT NULL,
     PRIMARY KEY (KnightId, AttributeId),
     FOREIGN KEY (KnightId) REFERENCES Knights(Id),
     FOREIGN KEY (AttributeId) REFERENCES Attributes(Id)
