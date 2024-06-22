@@ -34,6 +34,17 @@ namespace Tempo.Knight.Infra
                 .WithOne(w => w.Knight)
                 .HasForeignKey(w => w.KnightId);
 
+            modelBuilder.Entity<Domain.Model.Knight>()
+            .HasMany(k => k.KnightAttributes)
+            .WithOne(w => w.Knight)
+            .HasPrincipalKey(w => w.Id);
+
+            modelBuilder.Entity<KnightAttribute>()
+                .HasOne(ka => ka.Attribute)
+                .WithOne(x=>x.KnightAttribute)
+                .HasPrincipalKey<KnightAttribute>(w => w.AttributeId);
+
+
             modelBuilder.Entity<Domain.Model.Attribute>()
                .HasIndex(k => k.Name)
                .IsUnique();
