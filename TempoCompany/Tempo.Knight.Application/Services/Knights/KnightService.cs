@@ -25,18 +25,20 @@ namespace Tempo.Knight.Application.Services.Knights
         private readonly IFilterStrategy<Knight.Domain.Model.Knight> _filterStrategy;
         private readonly IManagerCalculator<Knight.Domain.Model.Knight, ResponseKnight> _managerCalculator;
         private readonly IAttributeRepository _attributeRepository;
+        private readonly IKnightAttributeRepository _knightAttributeRepository;
 
-        public KnightService(IMapper mapper, IKnightsRepository knightsRepository, IAttributeRepository attributeRepository, IFilterStrategy<Knight.Domain.Model.Knight> filterStrategy,
+        public KnightService(IMapper mapper, IKnightsRepository knightsRepository, IAttributeRepository attributeRepository, IKnightAttributeRepository knightAttributeRepository, IFilterStrategy<Knight.Domain.Model.Knight> filterStrategy,
             IManagerCalculator<Knight.Domain.Model.Knight, ResponseKnight> managerCalculator) : base(mapper, knightsRepository)
         {
             _filterStrategy = filterStrategy;
             _managerCalculator = managerCalculator;
             _attributeRepository = attributeRepository;
+            _knightAttributeRepository = knightAttributeRepository;
         }
 
         public async Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string filter = "")
         {
-            string [] includes = ["Weapons", "Attributes"];
+            string [] includes = ["Weapons", "KnightAttributes", "KnightAttributes.Attribute"];
             _filterStrategy.InputFilter(filter);
             var result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
             var viewModelResults = new BaseResponse<List<ResponseKnight>>
@@ -62,11 +64,11 @@ namespace Tempo.Knight.Application.Services.Knights
                 return new BaseResponse<ResponseKnight>(model.ErrorMessage);
             }
 
-            model.Data?.Attributes.ToList().ForEach(x =>
+            model.Data?.Attributes.ToList().ForEach(attribute =>
            {
-               if (!attributes.Select(x => x.Name.ToUpper()).Contains(x.Key.ToUpper()))
+               if (!attributes.Select(attr => attr.Name.ToUpper()).Contains(attribute.Name.ToUpper()))
                {
-                   model.ErrorMessage.Add(new CustomValidationFailure(x.Key, ErrorMessages.NotFound));
+                   model.ErrorMessage.Add(new CustomValidationFailure(attribute.Name, ErrorMessages.NotFound));
                }
 
            });
@@ -77,6 +79,8 @@ namespace Tempo.Knight.Application.Services.Knights
 
             var domainEntity = _mapper.Map<Knight.Domain.Model.Knight>(model.Data);
             var newEntity = await _repository.AddAsync(domainEntity);
+            var addAttribs = attributes.Where(x => requestKnight.Attributes.Select(x => x.Name).Contains(x.Name)).Select(x=>x.Id).ToList();
+            await _knightAttributeRepository.AddAsync(domainEntity.Id, addAttribs);
             return _mapper.Map<BaseResponse<ResponseKnight>>(newEntity);
 
         }

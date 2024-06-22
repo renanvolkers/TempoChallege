@@ -12,7 +12,8 @@ namespace Tempo.Knight.Application.Manager.Calculator
         /// </returns>
         public int CalculateAttack(Knight.Domain.Model.Knight knight)
         {
-            int keyAttributeModifier = GetAttributeModifier(knight.Attributes.GetValueOrDefault(knight.KeyAttribute,0));
+            var attributeValeu = knight.KnightAttributes.FirstOrDefault(x => x.Knight?.KeyAttribute == knight.KeyAttribute)?.Attribute?.Value ?? 0;
+            int keyAttributeModifier = GetAttributeModifier(attributeValeu);
             int equippedWeaponModifier = knight.Weapons?.Where(w => w.Equipped)?.Sum(w => w.Mod) ?? 0;
 
             return 10 + keyAttributeModifier + equippedWeaponModifier;

@@ -33,7 +33,7 @@ namespace Tempo.Knight.Application.Validations.Knight
                 .NotEmpty();
 
             RuleFor(y => y.Attributes)
-                .Must((x, y) => y.Where(o => o.Key == x.KeyAttribute).Any())
+                .Must((x, y) => y.Where(o => o.Name == x.KeyAttribute).Any())
                 .WithMessage($"Must have at least {nameof(RequestKnight.KeyAttribute)}  in {nameof(RequestKnight.Attributes)}");
 
         }

@@ -12,9 +12,9 @@ namespace Tempo.Knight.Dto.Requests.Knight
         public string Nickname { get; set; } = "";
         public DateTime Birthday { get; set; }
         public List<RequestWeapon> Weapons { get; set; }
-        public Dictionary<string, int> Attributes { get; set; }
+        public List<RequestAttribute> Attributes { get; set; }
         public string KeyAttribute { get; set; }
-
+        public  string CharacterType { get; set; }
 
         public RequestKnight()
         {
@@ -23,7 +23,8 @@ namespace Tempo.Knight.Dto.Requests.Knight
             Birthday = DateTime.Now;
             Weapons = new List<RequestWeapon>();
             KeyAttribute = string.Empty;
-            Attributes = new Dictionary<string, int>();
+            Attributes =new List<RequestAttribute>();
+            CharacterType = string.Empty;
         }
     }
 }

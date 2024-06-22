@@ -36,12 +36,12 @@ namespace Tempo.Knight.Application.Manager.Calculator
                  x.Birthday,
                 _mapper.Map<List<ResponseWeapon>>(x.Weapons),
                 x.KeyAttribute,
-                 x.Attributes,
-                 x.HallOfHeroes,
+                _mapper.Map<List<RequestAttribute>>(x.KnightAttributes.Select(x=>x.Attribute)),
+                x.HallOfHeroes,
                  _experienceCalculator.CalculateExperience(x),
                  _attackCalculator.CalculateAttack(x)
 )
-             );
+             ); ;
 
         }
 

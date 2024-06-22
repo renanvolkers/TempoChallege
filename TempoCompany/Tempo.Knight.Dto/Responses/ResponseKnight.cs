@@ -13,12 +13,13 @@ namespace Tempo.Knight.Dto.Responses
         public int Attack { get; set; }
         public int Experience { get; set; }
         public  List<ResponseWeapon> Weapons { get; set; }
-        public  Dictionary<string, int> Attributes { get; set; }
+        public List<RequestAttribute> Attributes { get; set; } = new List<RequestAttribute>();
+
         public string KeyAttribute { get; set; }
         public bool HallOfHeroes { get; set; }
 
         [SetsRequiredMembers]
-        public ResponseKnight(Guid id,string name, string nickname, DateTime birthday, List<ResponseWeapon> weapons,string keyAttribute, Dictionary<string, int> attributes,bool hallOfHeroes, int expirience, int attack)
+        public ResponseKnight(Guid id,string name, string nickname, DateTime birthday, List<ResponseWeapon> weapons,string keyAttribute, List<RequestAttribute> attributes,bool hallOfHeroes, int expirience, int attack)
         {
             Id = id;
             Name = name;
@@ -39,7 +40,7 @@ namespace Tempo.Knight.Dto.Responses
             Birthday = DateTime.Now;
             Weapons = new List<ResponseWeapon>();
             KeyAttribute = string.Empty;
-            Attributes = new Dictionary<string, int>();
+            Attributes =new List<RequestAttribute>();
             Experience = 0;
             Attack = 0;
             HallOfHeroes = false;

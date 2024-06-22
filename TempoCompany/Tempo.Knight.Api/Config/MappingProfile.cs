@@ -43,6 +43,10 @@ namespace Tempo.Knight.Api.Config
                cfg.CreateMap<RequestWeapon, Weapon>();
                cfg.CreateMap<Weapon, ResponseWeapon>();
 
+
+               cfg.CreateMap<Domain.Model.Attribute, RequestAttribute>();
+
+
            });
         }
     }
