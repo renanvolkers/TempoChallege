@@ -12,6 +12,6 @@ namespace Tempo.Knight.Domain.Repositories
     /// </summary>
     public interface IKnightAttributeRepository : IBaseRepository<KnightAttribute, Guid>
     {
-        Task<List<KnightAttribute>> AddAsync(Guid knight,List<Guid> attributeIds, params Expression<Func<KnightAttribute, object?>>[] references);
+        Task<List<KnightAttribute>> AddAsync(Guid knight,List<Guid> attributeIds,string use, params Expression<Func<KnightAttribute, object?>>[] references);
     }
 }

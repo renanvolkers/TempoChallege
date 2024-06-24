@@ -12,9 +12,12 @@ namespace Tempo.Knight.Infra.Repositories
 
             contexto = context;
         }
-        public async Task<List<Domain.Model.KnightAttribute>> AddAsync(Guid knightiD, List<Guid> attributeIds, params Expression<Func<KnightAttribute, object?>>[] references)
+        public async Task<List<Domain.Model.KnightAttribute>> AddAsync(Guid knightiD, List<Guid> attributeIds,string Use = "", params Expression<Func<KnightAttribute, object?>>[] references)
         {
-            var attributes = attributeIds.Select(x => new KnightAttribute { AttributeId = x, KnightId = knightiD }).ToList() ;
+            var attributes = attributeIds.Select(x => new KnightAttribute {
+                Id= Guid.NewGuid(), AttributeId = x, KnightId = knightiD ,
+                CreatedBy = Use
+            }).ToList() ;
             await contexto.AddRangeAsync(attributes);
             await contexto.SaveChangesAsync();
             return attributes;

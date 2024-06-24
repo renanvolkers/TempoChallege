@@ -9,6 +9,7 @@ namespace Tempo.Common.Setup.Api
     public interface IBaseRequest<T>
     {
         public T? Data { get; set; }
+        public string Use { get; set; }
         public IList<CustomValidationFailure> ErrorMessage { get; set; }
     }
 }
