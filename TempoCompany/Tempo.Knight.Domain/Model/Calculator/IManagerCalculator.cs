@@ -14,5 +14,6 @@ namespace Tempo.Knight.Domain.Model.Calculator
                                                       where TDto : class
     {
         IEnumerable<TDto> Calculator(IEnumerable<TEntity> knights);
+        IKnight CalculatorCombatTraining(Knight knight);
     }
 }

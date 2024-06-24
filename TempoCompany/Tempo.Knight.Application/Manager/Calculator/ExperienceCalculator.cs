@@ -17,7 +17,7 @@ namespace Tempo.Knight.Application.Manager.Calculator
             if (age < 7)
                 return 0;
 
-            return (int)Math.Floor((age - 7) * Math.Pow(22, 1.45));
+            return (int)Math.Floor((age - 7) * Math.Pow(22, 1.45)) + (int)Math.Round(knight.CombatTraining, 2);
         }
     }
 }

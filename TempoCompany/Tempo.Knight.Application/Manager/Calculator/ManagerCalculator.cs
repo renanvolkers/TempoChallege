@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Tempo.Knight.Domain.Model;
 using Tempo.Knight.Domain.Model.Calculator;
 using Tempo.Knight.Dto.Responses;
 
@@ -20,11 +21,13 @@ namespace Tempo.Knight.Application.Manager.Calculator
     {
         private readonly IAttackCalculator _attackCalculator;
         private readonly IExperienceCalculator _experienceCalculator;
+        private readonly ICombatTrainingCalculator _combatTrainingCalculator;
         private IMapper _mapper;
-        public ManagerCalculator(IMapper mapper, IAttackCalculator attackCalculator, IExperienceCalculator experienceCalculator)
+        public ManagerCalculator(IMapper mapper, IAttackCalculator attackCalculator, IExperienceCalculator experienceCalculator, ICombatTrainingCalculator combatTrainingCalculator)
         {
             _attackCalculator = attackCalculator;
             _experienceCalculator = experienceCalculator;
+            _combatTrainingCalculator = combatTrainingCalculator;
             _mapper = mapper;
         }
         public IEnumerable<ResponseKnight> Calculator(IEnumerable<Knight.Domain.Model.Knight> knights)
@@ -44,6 +47,12 @@ namespace Tempo.Knight.Application.Manager.Calculator
              ); ;
 
         }
+        public IKnight CalculatorCombatTraining(Knight.Domain.Model.Knight knight)
+        {
+          return _combatTrainingCalculator.CalculateCombatTraining(knight);
+
+        }
+
 
     }
 }

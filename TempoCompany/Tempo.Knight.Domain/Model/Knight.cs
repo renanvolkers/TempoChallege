@@ -1,8 +1,9 @@
-﻿using Tempo.Common.Setup.Repository;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Tempo.Common.Setup.Repository;
 
 namespace Tempo.Knight.Domain.Model
 {
-    public class Knight: Entity<Guid>
+    public class Knight: Entity<Guid>, IKnight
     {
         public required string Name { get; set; }
         public required string Nickname { get; set; }
@@ -12,7 +13,7 @@ namespace Tempo.Knight.Domain.Model
         public required string KeyAttribute { get; set; }
         public required string CharacterType { get; set; }
         public bool HallOfHeroes { get; set; } = false;
-        public float CombatTraining { get; set; }
+        public double CombatTraining { get; set; }
 
     }
 }
