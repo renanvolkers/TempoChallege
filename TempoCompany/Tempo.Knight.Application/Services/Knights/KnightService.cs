@@ -10,6 +10,9 @@ using System.Linq.Expressions;
 using Tempo.Common.Setup.Api;
 using Tempo.Common.Setup.Error;
 using Tempo.Common.Setup.Service;
+using Microsoft.AspNetCore.Identity;
+using Tempo.Knight.Application.Validations.Knight;
+using FluentValidation.Results;
 
 namespace Tempo.Knight.Application.Services.Knights
 {
@@ -38,9 +41,12 @@ namespace Tempo.Knight.Application.Services.Knights
 
         public async Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string filter = "")
         {
+            List<Knight.Domain.Model.Knight>  result;
+
             string [] includes = ["Weapons", "KnightAttributes", "KnightAttributes.Attribute"];
             _filterStrategy.InputFilter(filter);
-            var result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
+                 result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
+
             var viewModelResults = new BaseResponse<List<ResponseKnight>>
             {
                 Data = _managerCalculator.Calculator(result).ToList(),
@@ -80,26 +86,33 @@ namespace Tempo.Knight.Application.Services.Knights
             var domainEntity = _mapper.Map<Knight.Domain.Model.Knight>(model.Data);
             var newEntity = await _repository.AddAsync(domainEntity);
             var addAttribs = attributes.Where(x => requestKnight.Attributes.Select(x => x.Name).Contains(x.Name)).Select(x=>x.Id).ToList();
-            await _knightAttributeRepository.AddAsync(domainEntity.Id, addAttribs);
+            await _knightAttributeRepository.AddAsync(domainEntity.Id, addAttribs, model.Use);
             return _mapper.Map<BaseResponse<ResponseKnight>>(newEntity);
 
         }
 
-        public virtual async Task<BaseResponse<ResponseKnight>> CombatTrainingKnightAsync(BaseRequest<RequestTrainingKnight> model, Expression<Func<Knight.Domain.Model.Knight, bool>>? where = null, params Expression<Func<IModel, object>>[] references)
+        public virtual async Task<BaseResponse<ResponseKnight>> CombatTrainingKnightAsync(BaseRequest<RequestTrainingKnight> model, Guid id, params Expression<Func<IModel, object>>[] references)
         {
 
             if (model.ErrorMessage.Any())
             {
                 return new BaseResponse<ResponseKnight>(model.ErrorMessage);
             }
-            var entity = (await _repository.GetAllAsync(where)).FirstOrDefault();
+            var entity = (await _repository.GetByIdAsync(id));
             if (entity == null)
             {
                 model.ErrorMessage.Add(new CustomValidationFailure("Id", ErrorMessages.NotFound));
                 return new BaseResponse<ResponseKnight>(model.ErrorMessage);
             }
-            entity.CombatTraining = entity.CombatTraining + model.Data?.CombatTraining ?? 0;
-            await this._repository.UpdateAsync(entity, where);
+            var validaPermition = new KnightPermitionTimerValidator().Validate(entity.ModifiedAt);
+
+            if (!validaPermition.IsValid)
+            {
+                return new BaseResponse<ResponseKnight>(validaPermition.Errors.ToCustomValidationFailure()); 
+
+            }
+            entity = (Knight.Domain.Model.Knight)_managerCalculator.CalculatorCombatTraining(entity);
+            await this._repository.UpdateAsync(entity, x => x.Id == id);
             return _mapper.Map<BaseResponse<ResponseKnight>>(entity);
 
         }

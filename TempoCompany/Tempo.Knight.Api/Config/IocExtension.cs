@@ -25,8 +25,9 @@ namespace Tempo.Knight.Api.Config
             services.AddScoped<IAttackCalculator, AttackCalculator>();
             services.AddScoped<IAttributeRepository, AttributeRepository>();
             services.AddScoped<IKnightAttributeRepository, KnightAttributeRepository>();
-            
+
             services.AddScoped<IExperienceCalculator, ExperienceCalculator>();
+            services.AddScoped<ICombatTrainingCalculator, CombatTrainingCalculator>();
             services.AddTransient<IValidator<RequestKnight>, AddKnightValidator>();
             services.AddTransient<TempoApiController>();
         }

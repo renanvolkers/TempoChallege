@@ -75,5 +75,20 @@ namespace Tempo.Knight.Api.Controllers
 
             return Response(await _knightService.UpdateAsync(baseRequest,x=>x.Id==id));
         }
+
+        /// <summary>
+        /// Allows you to training Experience. 
+        /// </summary>
+        /// <param name="requestTraining">The knight request to  Update.</param>
+        /// <param name="id">The Id to look for Knight.</param>
+        /// <returns></returns>
+        [HttpPut("combat-training/{id}")]
+        public async Task<IActionResult> CombatTrainingKnightsAsync(Guid id, [FromBody] RequestTrainingKnight requestTraining)
+        {
+            var baseRequest = ValidateRequest(requestTraining, new CombatTrainingKnightValidator());
+
+            return Response(await _knightService.CombatTrainingKnightAsync(baseRequest, id));
+        }
+
     }
 }
