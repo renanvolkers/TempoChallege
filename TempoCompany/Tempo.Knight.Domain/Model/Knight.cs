@@ -12,7 +12,7 @@ namespace Tempo.Knight.Domain.Model
         public required string KeyAttribute { get; set; }
         public required string CharacterType { get; set; }
         public bool HallOfHeroes { get; set; } = false;
-
+        public float CombatTraining { get; set; }
 
     }
 }
