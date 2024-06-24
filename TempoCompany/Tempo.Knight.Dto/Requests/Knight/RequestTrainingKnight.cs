@@ -1,4 +1,5 @@
-﻿using Tempo.Common.Setup;
+﻿using System.Text.Json.Serialization;
+using Tempo.Common.Setup;
 
 namespace Tempo.Knight.Dto.Requests.Knight
 {
@@ -9,6 +10,9 @@ namespace Tempo.Knight.Dto.Requests.Knight
     public class RequestTrainingKnight : IRequest
     {
         public float CombatTraining { get; set; }
+        [JsonIgnore]
+        public DateTime? ModifiedAt { get; set; }
+
 
     }
 }
