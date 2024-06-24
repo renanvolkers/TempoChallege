@@ -14,6 +14,7 @@ namespace Tempo.Knight.UnitTests.Repositories
         private readonly Mock<IMapper> _mockMapper;
         private readonly Mock<IAttackCalculator> _mockAttackCalculator;
         private readonly Mock<IExperienceCalculator> _mockExperienceCalculator;
+        private readonly Mock<ICombatTrainingCalculator> _mockCombatTraining;
         private readonly ManagerCalculator _managerCalculator;
         private readonly ExperienceCalculator _experienceCalculator;
 
@@ -23,8 +24,9 @@ namespace Tempo.Knight.UnitTests.Repositories
             _mockMapper = new Mock<IMapper>();
             _mockAttackCalculator = new Mock<IAttackCalculator>();
             _mockExperienceCalculator = new Mock<IExperienceCalculator>();
+            _mockCombatTraining = new Mock<ICombatTrainingCalculator>();
 
-            _managerCalculator = new ManagerCalculator(_mockMapper.Object, _mockAttackCalculator.Object, _mockExperienceCalculator.Object);
+            _managerCalculator = new ManagerCalculator(_mockMapper.Object, _mockAttackCalculator.Object, _mockExperienceCalculator.Object, _mockCombatTraining.Object);
 
             _experienceCalculator = new ExperienceCalculator();
 
@@ -75,9 +77,10 @@ namespace Tempo.Knight.UnitTests.Repositories
                 Nickname = "The Brave",
                 Birthday = birthday,
                 Weapons = new List<Weapon>(),
-                Attributes = new Dictionary<string, int>(),
+                KnightAttributes = new List<KnightAttribute>(),
                 KeyAttribute = "Strength",
-                CharacterType = "Warrior"
+                CharacterType = "Warrior",
+                CreatedBy= "system"
             };
 
             // Act

@@ -15,9 +15,10 @@ namespace Tempo.Knight.UnitTests.Fake
                 Nickname = "The Brave",
                 Birthday = new DateTime(1990, 1, 1),
                 Weapons = new List<Weapon>(),
-                Attributes = new Dictionary<string, int>(),
+                KnightAttributes = new List <KnightAttribute>(),
                 KeyAttribute = "Strength",
-                CharacterType = "Warrior"
+                CharacterType = "Warrior",
+                CreatedBy="System"
             },
                 new Domain.Model.Knight
             {
@@ -26,9 +27,10 @@ namespace Tempo.Knight.UnitTests.Fake
                 Nickname = "The Brave",
                 Birthday = new DateTime(1980, 3, 8),
                 Weapons = new List<Weapon>(),
-                Attributes = new Dictionary<string, int>(),
+                KnightAttributes = new List < KnightAttribute >(),
                 KeyAttribute = "Strength",
-                CharacterType = "Warrior"
+                CharacterType = "Warrior",
+                CreatedBy = "System"
             }
             };
 
@@ -44,9 +46,10 @@ namespace Tempo.Knight.UnitTests.Fake
                 Nickname = "The Brave",
                 Birthday = new DateTime(1990, 1, 1),
                 Weapons = new List<Weapon>(),
-                Attributes = new Dictionary<string, int>(),
+                KnightAttributes = new List<KnightAttribute>(),
                 KeyAttribute = "Strength",
-                CharacterType = "Warrior"
+                CharacterType = "Warrior",
+                CreatedBy= "System"
             }; 
 
         }
