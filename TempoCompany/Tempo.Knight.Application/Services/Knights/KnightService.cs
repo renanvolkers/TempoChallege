@@ -84,5 +84,24 @@ namespace Tempo.Knight.Application.Services.Knights
             return _mapper.Map<BaseResponse<ResponseKnight>>(newEntity);
 
         }
+
+        public virtual async Task<BaseResponse<ResponseKnight>> CombatTrainingKnightAsync(BaseRequest<RequestTrainingKnight> model, Expression<Func<Knight.Domain.Model.Knight, bool>>? where = null, params Expression<Func<IModel, object>>[] references)
+        {
+
+            if (model.ErrorMessage.Any())
+            {
+                return new BaseResponse<ResponseKnight>(model.ErrorMessage);
+            }
+            var entity = (await _repository.GetAllAsync(where)).FirstOrDefault();
+            if (entity == null)
+            {
+                model.ErrorMessage.Add(new CustomValidationFailure("Id", ErrorMessages.NotFound));
+                return new BaseResponse<ResponseKnight>(model.ErrorMessage);
+            }
+            entity.CombatTraining = entity.CombatTraining + model.Data?.CombatTraining ?? 0;
+            await this._repository.UpdateAsync(entity, where);
+            return _mapper.Map<BaseResponse<ResponseKnight>>(entity);
+
+        }
     }
 }

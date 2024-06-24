@@ -14,6 +14,7 @@ namespace Tempo.Knight.Application.Domain.Knights
     {
         Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string Filter = "");
         Task<BaseResponse<ResponseKnight>> AddKnightAsync(BaseRequest<RequestKnight> request, params Expression<Func<IModel, object>>[] references);
+        Task<BaseResponse<ResponseKnight>> CombatTrainingKnightAsync(BaseRequest<RequestTrainingKnight> model, Expression<Func<Knight.Domain.Model.Knight, bool>>? where = null, params Expression<Func<IModel, object>>[] references);
 
     }
 }
