@@ -12,12 +12,6 @@
     margin-bottom: 15px;
 }
 
-
-
-
-
-
-
 button {
     background: #8b5e3c;
     color: white;
@@ -27,11 +21,35 @@ button {
     cursor: pointer;
     transition: background 0.3s;
 }
-
+.pageButton {
+    background-color: #8b5e3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 70px !important;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Cinzel", serif;
+    margin: 2px;
+}
     button:hover {
         background: #6d4529;
     }
-background-image: url('/assets/castle.jpg');
+.pageNumberButton {
+    background-color: #8b5e3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 20px !important;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Cinzel", serif;
+    margin: 2px;
+}
+
+button:hover {
+    background: #6d4529;
+}
 
 .attributes-grid {
     display: flex;
@@ -69,37 +87,37 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-    .knight-list h2 {
-        background-color: #8b5e3c;
-        color: white;
-        text-align: center;
-        margin: 0;
-        font-size: 24px;
-        border-radius: 5px 5px 0 0;
-    }
+.knight-list h2 {
+    background-color: #8b5e3c;
+    color: white;
+    text-align: center;
+    margin: 0;
+    font-size: 24px;
+    border-radius: 5px 5px 0 0;
+}
 
-    .knight-list table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
+.knight-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-    .knight-list th, .knight-list td {
-        text-align: left;
-        border-bottom: 1px solid #8b5e3c;
-        font-size: 14px;
-        color: #4a3f35;
-    }
+.knight-list th, .knight-list td {
+    text-align: left;
+    border-bottom: 1px solid #8b5e3c;
+    font-size: 14px;
+    color: #4a3f35;
+}
 
-    .knight-list th {
-        background-color: #f9f8f3;
-        font-weight: bold;
-    }
+.knight-list th {
+    background-color: #f9f8f3;
+    font-weight: bold;
+}
 
-    .knight-list tbody tr:nth-child(even) {
-        background-color: #f9f8f3;
+.knight-list tbody tr:nth-child(even) {
+    background-color: #f9f8f3;
 
-    }
+}
 td, th {
     border-color: inherit;
     border-style: solid;
@@ -122,18 +140,18 @@ td, th {
     font-family: "Cinzel", serif;
 }
 
-        .knight-list button:hover {
-            background-color: #5e3c2b;
-        }
+.knight-list button:hover {
+    background-color: #5e3c2b;
+}
 
-    .knight-list ul {
-        list-style-type: none;
-        margin: 0;
-    }
+.knight-list ul {
+    list-style-type: none;
+    margin: 0;
+}
 
-    .knight-list li {
-        margin: 4px 0;
-    }
+.knight-list li {
+    margin: 4px 0;
+}
 
 
 
@@ -148,48 +166,48 @@ td, th {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 2px;
-        font-weight: bold;
-        color: #4a3f35;
-        font-size: 16px;
-    }
+.form-group label {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: bold;
+    color: #4a3f35;
+    font-size: 16px;
+}
 
-    .form-group div {
-        display: flex;
-        align-items: center;
-    }
+.form-group div {
+    display: flex;
+    align-items: center;
+}
 
-    .form-group input[type="checkbox"] {
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #8b5e3c;
-        border-radius: 3px;
-        position: relative;
-        cursor: pointer;
-        background-color: #f9f8f3;
-        transition: background-color 0.3s, border-color 0.3s;
-        margin: 9px;
-    }
+.form-group input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #8b5e3c;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    background-color: #f9f8f3;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin: 9px;
+}
 
-        .form-group input[type="checkbox"]:checked {
-            background-color: #8b5e3c;
-            margin: 9px;
-        }
+.form-group input[type="checkbox"]:checked {
+    background-color: #8b5e3c;
+    margin: 9px;
+}
 
-            .form-group input[type="checkbox"]:checked::after {
-                content: "";
-                position: absolute;
-                width: 6px;
-                height: 10px;
-                border: solid white;
-                border-width: 0 2px 2px 0;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(45deg);
-            }
+.form-group input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
 
     .form-group div label {
         margin: 0 0 0 10px;
