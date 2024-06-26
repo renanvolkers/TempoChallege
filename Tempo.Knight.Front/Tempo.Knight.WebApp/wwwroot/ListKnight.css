@@ -1,11 +1,10 @@
 .knight-form {
-    background: #f4f1e0; /* Textura de pergaminho */
-    border: 2px solid #8b5e3c; /* Bordas ornamentadas */
-    border-radius: 10px; /* Bordas arredondadas */
-    padding: 20px;
+    background: #f4f1e0;
+    border: 2px solid #8b5e3c;
+    border-radius: 10px;
     width: 700px;
     margin: auto;
-    font-family: "Cinzel", serif; /* Fonte estilizada */
+    font-family: "Cinzel", serif;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -13,32 +12,15 @@
     margin-bottom: 15px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #4a3f35;
-}
 
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #8b5e3c;
-    border-radius: 5px;
-    background: #f9f8f3;
-}
 
-textarea {
-    resize: vertical;
-}
+
+
+
 
 button {
     background: #8b5e3c;
     color: white;
-    padding: 10px 15px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
@@ -49,6 +31,7 @@ button {
     button:hover {
         background: #6d4529;
     }
+background-image: url('/assets/castle.jpg');
 
 .attributes-grid {
     display: flex;
@@ -60,11 +43,6 @@ button {
     width: calc(33.3333% - 10px);
 }
 
-/* Estilos dos cards */
-.cards-container {
-    display: flex;
-    overflow-x: auto;
-}
 
 
 h1 {
@@ -75,44 +53,10 @@ h1 {
 }
 
 
-.tribute-card {
-    flex: 0 0 auto;
-    margin-right: 10px;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: border-color 0.3s;
-}
 
-    .tribute-card img {
-        display: block;
-        width: 100px;
-        height: 200px;
-        border-radius: 5px 5px 0 0;
-        transition: filter 0.3s;
-    }
 
-    .tribute-card .card-content {
-        padding: 10px;
-    }
 
-    /* Efeito de desaturação */
-    .tribute-card img.selected {
-        filter: grayscale(0%);
-    }
 
-    .tribute-card img:not(.selected) {
-        filter: grayscale(100%);
-    }
-
-    .tribute-card .card-content {
-        padding: 10px;
-    }
-
-/* Estilo quando o card é selecionado */
-.card-selected {
-    border-color: #8b5e3c;
-}
 
 
 
@@ -121,18 +65,14 @@ h1 {
     background: #f4f1e0; /* Textura de pergaminho */
     border: 2px solid #8b5e3c; /* Bordas ornamentadas */
     border-radius: 10px; /* Bordas arredondadas */
-    padding: 20px;
-    width: 90%;
-    margin: 20px auto;
     font-family: "Cinzel", serif; /* Fonte estilizada */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
     .knight-list h2 {
-        background-color: #8b5e3c; /* Fundo estilizado */
+        background-color: #8b5e3c;
         color: white;
         text-align: center;
-        padding: 10px 0;
         margin: 0;
         font-size: 24px;
         border-radius: 5px 5px 0 0;
@@ -145,7 +85,6 @@ h1 {
     }
 
     .knight-list th, .knight-list td {
-        padding: 12px;
         text-align: left;
         border-bottom: 1px solid #8b5e3c;
         font-size: 14px;
@@ -159,22 +98,29 @@ h1 {
 
     .knight-list tbody tr:nth-child(even) {
         background-color: #f9f8f3;
+
     }
+td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    padding:8px;
+}
 
     .knight-list tbody tr:hover {
         background-color: #f1f1f1;
     }
 
-    .knight-list button {
-        background-color: #8b5e3c; /* Botão estilizado */
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        font-family: "Cinzel", serif;
-    }
+.knight-list button {
+    background-color: #8b5e3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 80px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Cinzel", serif;
+}
 
         .knight-list button:hover {
             background-color: #5e3c2b;
@@ -182,7 +128,6 @@ h1 {
 
     .knight-list ul {
         list-style-type: none;
-        padding: 0;
         margin: 0;
     }
 
@@ -194,13 +139,12 @@ h1 {
 
 
 .form-group {
-    background: #f4f1e0; /* Textura de pergaminho */
-    border: 2px solid #8b5e3c; /* Bordas ornamentadas */
-    border-radius: 10px; /* Bordas arredondadas */
-    padding: 15px;
+    background: #f4f1e0;
+    border: 2px solid #8b5e3c;
+    border-radius: 10px;
     margin: 20px auto;
-    width: 300px; /* Largura do grupo de formulários */
-    font-family: "Cinzel", serif; /* Fonte estilizada */
+    width: 300px;
+    font-family: "Cinzel", serif;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -218,7 +162,7 @@ h1 {
     }
 
     .form-group input[type="checkbox"] {
-        appearance: none; /* Remove o estilo padrão */
+        appearance: none;
         width: 20px;
         height: 20px;
         border: 2px solid #8b5e3c;
@@ -227,10 +171,12 @@ h1 {
         cursor: pointer;
         background-color: #f9f8f3;
         transition: background-color 0.3s, border-color 0.3s;
+        margin: 9px;
     }
 
         .form-group input[type="checkbox"]:checked {
             background-color: #8b5e3c;
+            margin: 9px;
         }
 
             .form-group input[type="checkbox"]:checked::after {
@@ -246,9 +192,7 @@ h1 {
             }
 
     .form-group div label {
-        margin: 0 0 0 10px; /* Espaçamento entre o checkbox e o texto */
+        margin: 0 0 0 10px;
         font-weight: normal;
         color: #4a3f35;
     }
-
-

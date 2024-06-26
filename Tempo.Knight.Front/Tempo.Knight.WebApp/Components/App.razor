@@ -1,0 +1,55 @@
+﻿@using Tempo.Knight.WebApp.Components.Pages.KnightForm
+@using Tempo.Knight.WebApp.Components.Pages.KnightForm.List
+@inject HttpClient httpClient
+@using Microsoft.AspNetCore.Components
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="Tempo.Knight.WebApp.styles.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+    <style>
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-image: url('/assets/castle.jpg');
+        }
+    
+    body {
+            background: none; 
+        }
+    html {
+        background-image: url('/assets/castle.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        
+    }
+</style>
+
+
+</body>
+
+</html>
