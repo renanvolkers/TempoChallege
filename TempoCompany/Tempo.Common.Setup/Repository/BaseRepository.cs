@@ -71,7 +71,12 @@ namespace Tempo.Common.Setup.Service
                     query = query.Include(include);
                 }
             }
+            if(where != null)
+            {
+                return await query.Where(where).ToListAsync();
+            }
             return await query.ToListAsync();
+
         }
 
         public async Task<TEntity?> GetByIdAsync(Key id)

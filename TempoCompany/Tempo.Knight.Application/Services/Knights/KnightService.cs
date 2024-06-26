@@ -13,6 +13,7 @@ using Tempo.Common.Setup.Service;
 using Microsoft.AspNetCore.Identity;
 using Tempo.Knight.Application.Validations.Knight;
 using FluentValidation.Results;
+using System.Linq;
 
 namespace Tempo.Knight.Application.Services.Knights
 {
@@ -39,13 +40,22 @@ namespace Tempo.Knight.Application.Services.Knights
             _knightAttributeRepository = knightAttributeRepository;
         }
 
-        public async Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string filter = "")
+        public async Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(RequestFilterKnight requestFilter, int? page, int? pageSize)
         {
             List<Knight.Domain.Model.Knight>  result;
 
             string [] includes = ["Weapons", "KnightAttributes", "KnightAttributes.Attribute"];
-            _filterStrategy.InputFilter(filter);
-                 result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
+            _filterStrategy.InputFilter(requestFilter.CharacterType);
+            result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
+            if(requestFilter.Name != string.Empty)
+            {
+                result = result.Where(x => x.Name.ToUpper().Contains(requestFilter.Name.ToUpper())).ToList();
+            }
+           var defaultPageSize = pageSize ?? 10;
+            var defaultpage = page -1 ?? 0;
+            result = result.OrderBy(x => x.Name).Skip(defaultpage * defaultPageSize)
+                                          .Take(defaultPageSize)
+                                          .ToList();
 
             var viewModelResults = new BaseResponse<List<ResponseKnight>>
             {

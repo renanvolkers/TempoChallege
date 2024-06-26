@@ -12,7 +12,7 @@ namespace Tempo.Knight.Application.Domain.Knights
     /// </summary>
     public interface IKnightService : ITempoBaseService<Knight.Domain.Model.Knight,ResponseKnight>
     {
-        Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(string Filter = "");
+        Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(RequestFilterKnight requestFilter, int? page, int? pageSize);
         Task<BaseResponse<ResponseKnight>> AddKnightAsync(BaseRequest<RequestKnight> request, params Expression<Func<IModel, object>>[] references);
         Task<BaseResponse<ResponseKnight>> CombatTrainingKnightAsync(BaseRequest<RequestTrainingKnight> model, Guid id, params Expression<Func<IModel, object>>[] references);
 

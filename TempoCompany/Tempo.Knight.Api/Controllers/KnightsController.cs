@@ -20,14 +20,16 @@ namespace Tempo.Knight.Api.Controllers
 
         /// <summary>
         /// Displays the list of all knights. If the parameter filter does not pass.
-        /// Displays a list containing only warriors who have become heroes.. 
+        /// Displays a list containing name. 
         /// </summary>
-        /// <param name="filter">Displays a list containing only warriors who have become heroes. </param>
+        /// <param name="requestFilter">Displays a list containing namea and type. </param>
+        /// <param name="page">Displays a   page. </param>
+        /// <param name="pageSize">Displays a list pageSize. </param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> FilterKnightsAsync([FromQuery]  string  filter="" )
+        public async Task<IActionResult> FilterKnightsAsync([FromQuery] RequestFilterKnight requestFilter , int? page,int? pageSize)
         {
-            return Response(await _knightService.GetFilterAsync(filter));
+            return Response(await _knightService.GetFilterAsync(requestFilter,page,pageSize));
         }
         /// <summary>
         /// Creates knight request

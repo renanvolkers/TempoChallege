@@ -4,8 +4,8 @@ GO
 -- Inserir um Knight com informações de auditoria
 INSERT INTO Knights (Id, Name, Nickname, Birthday, KeyAttribute, CharacterType, HallOfHeroes, CreatedBy, CreatedAt, ModifiedBy, ModifiedAt)
 VALUES
-    (NEWID(), 'Arthur', 'The Brave', '1980-01-01', 'Strength', 'Warrior', 0, 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), 'Lancelot', 'The Gallant', '1975-05-15', 'Courage', 'Knight', 1, 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), 'Arthur', 'The Brave', '1980-01-01', 'Strength', 'heroes', 0, 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), 'Lancelot', 'The Gallant', '1975-05-15', 'Courage', 'heroes', 1, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Galahad', 'The Pure', '1990-03-20', 'Virtue', 'Paladin', 1, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Merlin', 'The Wise', '1950-11-11', 'Wisdom', 'Mage', 1, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Guinevere', 'The Fair', '1978-09-30', 'Charm', 'Royalty', 0, 'system', GETDATE(), 'system', GETDATE()),
