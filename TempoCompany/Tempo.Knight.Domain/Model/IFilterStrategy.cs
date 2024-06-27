@@ -10,7 +10,7 @@ namespace Tempo.Knight.Domain.Model
     public interface IFilterStrategy<T> where T : class
     {
         Expression<Func<T, bool>> ToExpression();
-        void InputFilter(string filter);
+        void InputFilter(string? filter);
         bool IsSatisfiedBy(T entity);
     }
 }

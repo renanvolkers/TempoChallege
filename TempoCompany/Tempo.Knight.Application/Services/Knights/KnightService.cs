@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Tempo.Knight.Application.Validations.Knight;
 using FluentValidation.Results;
 using System.Linq;
+using Tempo.Common.Setup.Util.Extension;
 
 namespace Tempo.Knight.Application.Services.Knights
 {
@@ -40,26 +41,29 @@ namespace Tempo.Knight.Application.Services.Knights
             _knightAttributeRepository = knightAttributeRepository;
         }
 
-        public async Task<BaseResponse<List<ResponseKnight>>> GetFilterAsync(RequestFilterKnight requestFilter, int? page, int? pageSize)
+        public async Task<BaseResponse<PagedResponse<ResponseKnight>>> GetFilterAsync(RequestFilterKnight requestFilter, int? page, int? pageSize)
         {
             List<Knight.Domain.Model.Knight>  result;
 
             string [] includes = ["Weapons", "KnightAttributes", "KnightAttributes.Attribute"];
             _filterStrategy.InputFilter(requestFilter.CharacterType);
             result = (await _repository.GetAllAsync(_filterStrategy.ToExpression(), includes));
-            if(requestFilter.Name != string.Empty)
+            if(!string.IsNullOrWhiteSpace(requestFilter.Name))
             {
                 result = result.Where(x => x.Name.ToUpper().Contains(requestFilter.Name.ToUpper())).ToList();
             }
-           var defaultPageSize = pageSize ?? 10;
-            var defaultpage = page -1 ?? 0;
-            result = result.OrderBy(x => x.Name).Skip(defaultpage * defaultPageSize)
-                                          .Take(defaultPageSize)
-                                          .ToList();
 
-            var viewModelResults = new BaseResponse<List<ResponseKnight>>
+
+
+            var totalCount = result.Count;
+            var resultPage = result.ToPagedList(page, pageSize);
+            var resulCalculator = _managerCalculator.Calculator(resultPage).ToList();
+
+            var response = new PagedResponse<ResponseKnight>(resulCalculator, page.GetValueOrDefault(0), pageSize,totalCount);
+
+            var viewModelResults = new BaseResponse<PagedResponse<ResponseKnight>>
             {
-                Data = _managerCalculator.Calculator(result).ToList(),
+                Data = response,
             };
             return viewModelResults;
         }

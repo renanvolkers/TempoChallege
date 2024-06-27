@@ -7,8 +7,8 @@ namespace Tempo.Knight.Dto.Requests.Knight
     /// </summary>
     public class RequestFilterKnight : IRequest
     {
-        public string Name { get; set; } = "";
-        public  string CharacterType { get; set; }
+        public string? Name { get; set; } = "";
+        public string? CharacterType { get; set; } = "";
 
         public RequestFilterKnight()
         {

@@ -12,13 +12,13 @@ namespace Tempo.Knight.Application.Specification
     /// </summary>
     public sealed class FilterKnightsByHeroesSpecification : Specification<Knight.Domain.Model.Knight>, IFilterStrategy<Knight.Domain.Model.Knight>
     {
-        private string _filterHero;
+        private string? _filterHero;
 
         public FilterKnightsByHeroesSpecification()
         {
             _filterHero = string.Empty;
         }
-        public void InputFilter(string filterHero)
+        public void InputFilter(string? filterHero)
         {
             _filterHero = filterHero;
         }
