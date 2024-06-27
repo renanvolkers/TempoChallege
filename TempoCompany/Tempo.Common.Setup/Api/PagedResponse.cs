@@ -1,5 +1,6 @@
 ﻿using Tempo.Common.Setup.Error;
 using Tempo.Common.Setup.Util.Extension;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tempo.Common.Setup.Api
 {
@@ -7,7 +8,7 @@ namespace Tempo.Common.Setup.Api
     /// pattern of response within the project
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class PagedResponse<T>
+    public class PagedResponse<T> where T : new()
     {
         public IEnumerable<T> Items { get; set; }
         public int PageNumber { get; set; }
@@ -42,6 +43,13 @@ namespace Tempo.Common.Setup.Api
             PageNumber = pageNumber;
             PageSize = pageSize.GetValueOrDefault(PaginationExtensions.DefaultPageSize());
             TotalCount = totalCount;
+        }
+        public PagedResponse()
+        {
+            Items = new List<T>();
+            PageNumber = 0;
+            PageSize = 0;
+            TotalCount = 0;
         }
     }
 }

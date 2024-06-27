@@ -6,9 +6,9 @@ namespace Tempo.Common.Setup.Api
     /// pattern of response within the project
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseResponse<T> : IBaseResponse<T>  
+    public class BaseResponse<T> : IBaseResponse<T>  where T : class, new()
     {
-        public T? Data { get; set; } 
+        public T Data { get; set; }
         public IList<CustomValidationFailure> ErrorMessage { get; set; }
 
         public BaseResponse(T data)
@@ -18,12 +18,12 @@ namespace Tempo.Common.Setup.Api
         }
         public BaseResponse(IList<CustomValidationFailure> errorMessage)
         {
-            Data = default;
+            Data = new T();
             ErrorMessage = errorMessage;
         }
         public BaseResponse()
         {
-            Data = default;
+            Data = new T();
             ErrorMessage = [];
         }
     }

@@ -2,7 +2,7 @@
 {
     public class RequestAttribute 
     {
-        public required string Name { get; set; }
+        public  string Name { get; set; } = "";
         public int Value { get; set; }
 
     }

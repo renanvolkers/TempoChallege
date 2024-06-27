@@ -61,10 +61,8 @@ namespace Tempo.Knight.Application.Services.Knights
 
             var response = new PagedResponse<ResponseKnight>(resulCalculator, page.GetValueOrDefault(0), pageSize,totalCount);
 
-            var viewModelResults = new BaseResponse<PagedResponse<ResponseKnight>>
-            {
-                Data = response,
-            };
+            var viewModelResults = new BaseResponse<PagedResponse<ResponseKnight>>();
+            viewModelResults.Data = response;
             return viewModelResults;
         }
 

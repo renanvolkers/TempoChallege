@@ -42,7 +42,7 @@ namespace Tempo.Common.Setup.Api
             return request;
         }
 
-        protected new IActionResult Response<TRequest>(IBaseResponse<TRequest> response)
+        protected new IActionResult Response<T>(IBaseResponse<T> response) where T: class,new()
         {
             if (response !=null && response.ErrorMessage.Any())
             {
@@ -50,7 +50,7 @@ namespace Tempo.Common.Setup.Api
             }
             if(response != null)
             {
-                return Ok(response.Data);
+                return Ok(response);
             }
 
             return Ok(response);

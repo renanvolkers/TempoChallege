@@ -6,9 +6,9 @@ namespace Tempo.Common.Setup.Api
     /// pattern of Interface response within the project
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IBaseResponse<T>
+    public interface IBaseResponse<T> where T : class, new()
     {
-        public T? Data { get; set; }
+        public T Data { get; set; }
         public IList<CustomValidationFailure> ErrorMessage { get; set; }
     }
 }

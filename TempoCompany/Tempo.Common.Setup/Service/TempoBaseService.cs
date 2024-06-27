@@ -20,7 +20,7 @@ namespace Tempo.Common.Setup.Service
     public class TempoBaseService<IModel, IResponse, TRepository> :
         ITempoBaseService<IModel, IResponse>
         where IModel : IEntity<Guid>
-        where IResponse: class
+        where IResponse: class,new()
 
         where TRepository : IBaseRepository<IModel, Guid>
     {
@@ -78,10 +78,10 @@ namespace Tempo.Common.Setup.Service
             return _mapper.Map<BaseResponse<IResponse>>(entity);
         }
 
-        public virtual async Task<BaseResponse<IResponse?>> GetByIdAsync(Guid id)
+        public virtual async Task<BaseResponse<IResponse>> GetByIdAsync(Guid id)
         {
             IModel? result = await this._repository.GetByIdAsync(id);
-            return _mapper.Map<BaseResponse<IResponse?>>(result);
+            return _mapper.Map<BaseResponse<IResponse>>(result);
         }
 
         protected BaseRequest<IRequest> ValidateRequest<T>(T model, AbstractValidator<T> validator) where T : IRequest

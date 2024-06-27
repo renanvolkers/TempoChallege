@@ -6,9 +6,9 @@ namespace Tempo.Common.Setup.Api
     /// pattern of response within the project
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Response<T> 
+    public class Response<T> where T :new()
     {
-        public required T Id { get; set; } 
+        public T Id { get; set; } = new();
 
     }
 }
