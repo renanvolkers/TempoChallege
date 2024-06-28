@@ -1,0 +1,121 @@
+﻿@page "/Create-knight"
+@inject HttpClient Http
+<link href="ListKnight.css" rel="stylesheet">
+
+<div class="knight-form">
+    <div class="form-group">
+        <label>Find:</label>
+        <div>
+            <input type="checkbox" value="@DefaultSearcher" checked="@DefaultSearcher" @onchange="@((args) => SubmitForm(args))" /> Heroes
+        </div>
+        <div>
+            <input type="text" class="form-control" @bind="filterName" @oninput="OnInputChanged" placeholder="Name..." />
+        </div>
+    </div>
+    <div class="knight-list">
+        <h2>Knights</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Weapons</th>
+                    <th>Attribute</th>
+                    <th>Attack</th>
+                    <th>Experience</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var knight in knights)
+                {
+                    <tr>
+                        <td>@knight.Name</td>
+                        <td>@knight.Age</td>
+                        <td>
+                            <ul>
+                                @foreach (var weapon in knight.Weapons)
+                                {
+                                    <li>@weapon.Name</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>@knight.KeyAttribute</td>
+                        <td>@knight.Attack</td>
+                        <td>@knight.Experience</td>
+                        <td>
+                            <button @onclick="() => DeleteKnight(knight)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <Pagination TotalItems="totalKnights" ItemsPerPage="itemsPerPage" OnPageChanged="HandlePageChanged" />
+    </div>
+</div>
+
+@code {
+    private List<KnightViewModel> knights = new();
+    private bool DefaultSearcher = false;
+    private int totalKnights;
+    private int itemsPerPage = 10;
+    private int currentPage = 1;
+    private string filterName = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadKnights();
+    }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        filterName = e.Value?.ToString() ?? "";
+        await LoadKnights();
+    }
+
+    private async Task SubmitForm(ChangeEventArgs e)
+    {
+        DefaultSearcher = (bool)e.Value!;
+        await LoadKnights();
+    }
+
+    private async Task LoadKnights()
+    {
+        string? DefaultSearcherValue = DefaultSearcher ? "heroes" : null;
+        try
+        {
+            var response = await Http.GetFromJsonAsync<BaseResponse<PagedResponse<KnightViewModel>>>($"/knights?Name={filterName}&CharacterType={DefaultSearcherValue}&page={currentPage}&pageSize={itemsPerPage}");
+            if (response?.Data != null)
+            {
+                knights = response.Data.Items.ToList();
+                totalKnights = response.Data.TotalCount;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message);
+            // handle error
+        }
+        StateHasChanged();
+    }
+
+    private async Task DeleteKnight(KnightViewModel knight)
+    {
+        try
+        {
+            await Http.DeleteAsync($"/knights/{knight.Id}");
+            knights.Remove(knight);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message);
+            // handle error
+        }
+    }
+
+    private async Task HandlePageChanged(int page)
+    {
+        currentPage = page;
+        await LoadKnights();
+    }
+}
