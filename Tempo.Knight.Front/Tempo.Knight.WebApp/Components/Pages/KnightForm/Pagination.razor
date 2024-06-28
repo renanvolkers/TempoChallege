@@ -1,22 +1,22 @@
 ﻿<nav>
     <ul class="pagination">
-        <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+        <li class=" @(CurrentPage == 1 ? "disabledPage" : "")">
             <button class="pageButton" @onclick="() => SelectPageAsync(1)">First</button>
         </li>
-        <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+        <li class="@(CurrentPage == 1 ? "disabledPage" : "")">
             <button class="pageButton" @onclick="() => SelectPageAsync(CurrentPage - 1)">Previous</button>
         </li>
         @for (var i = 1; i <= TotalPages; ++i)
         {
             var pageNumber = i;
-            <li class="page-item @(CurrentPage == i ? "active" : "")">
-                <button class="pageNumberButton" @onclick=" () => SelectPageAsync(pageNumber)">@i</button>
+            <li >
+                <button class="pageNumberButton @(CurrentPage == i ? "activePage" : "")" @onclick=" () => SelectPageAsync(pageNumber)">@i</button>
             </li>
         }
-        <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+        <li class="@(CurrentPage == TotalPages ? "disabledPage" : "")">
             <button class="pageButton" @onclick="() => SelectPageAsync(CurrentPage + 1)">Next</button>
         </li>
-        <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+        <li class=" @(CurrentPage == TotalPages ? "disabledPage" : "")">
             <button class="pageButton" @onclick="() => SelectPageAsync(TotalPages)">Last</button>
         </li>
     </ul>
