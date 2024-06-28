@@ -1,17 +1,15 @@
 ﻿@page "/knight-form"
-
 @inject HttpClient Http
- <link href="ListKnight.css" rel="stylesheet">
- 
+<link href="ListKnight.css" rel="stylesheet">
+
 <div class="knight-form">
     <div class="form-group">
         <label>Find:</label>
         <div>
-            <input type="checkbox" value="@DefaultSearcher" checked="@DefaultSearcher" @onchange="@((args) => SubmitForm((bool)(args.Value??true) ))" /> Heroes
+            <input type="checkbox" value="@DefaultSearcher" checked="@DefaultSearcher" @onchange="@((args) => SubmitForm(args))" /> Heroes
         </div>
-        <div >
+        <div>
             <input type="text" class="form-control" @bind="filterName" @oninput="OnInputChanged" placeholder="Name..." />
-
         </div>
     </div>
     <div class="knight-list">
@@ -38,7 +36,7 @@
                             <ul>
                                 @foreach (var weapon in knight.Weapons)
                                 {
-                                    <li>@weapon.Name  </li>
+                                    <li>@weapon.Name</li>
                                 }
                             </ul>
                         </td>
@@ -53,13 +51,12 @@
             </tbody>
         </table>
         <Pagination TotalItems="totalKnights" ItemsPerPage="itemsPerPage" OnPageChanged="HandlePageChanged" />
-
     </div>
 </div>
 
 @code {
     private List<KnightViewModel> knights = new();
-    private bool DefaultSearcher=false;
+    private bool DefaultSearcher = false;
     private int totalKnights;
     private int itemsPerPage = 10;
     private int currentPage = 1;
@@ -67,31 +64,39 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await SubmitForm(DefaultSearcher);
+        await LoadKnights();
     }
-
 
     private async Task OnInputChanged(ChangeEventArgs e)
     {
-        filterName = e.Value?.ToString() ??"";
-      await  SubmitForm(DefaultSearcher);
-
+        filterName = e.Value?.ToString() ?? "";
+        await LoadKnights();
     }
 
-    private async Task SubmitForm(bool check)
+    private async Task SubmitForm(ChangeEventArgs e)
     {
-        DefaultSearcher = check;
+        DefaultSearcher = (bool)e.Value!;
+        await LoadKnights();
+    }
+
+    private async Task LoadKnights()
+    {
+        string? DefaultSearcherValue = DefaultSearcher ? "heroes" : null;
         try
         {
-
-            await HandlePageChanged(currentPage);
-
+            var response = await Http.GetFromJsonAsync<BaseResponse<PagedResponse<KnightViewModel>>>($"/knights?Name={filterName}&CharacterType={DefaultSearcherValue}&page={currentPage}&pageSize={itemsPerPage}");
+            if (response?.Data != null)
+            {
+                knights = response.Data.Items.ToList();
+                totalKnights = response.Data.TotalCount;
+            }
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine(ex.Message);
             // handle error
         }
+        StateHasChanged();
     }
 
     private async Task DeleteKnight(KnightViewModel knight)
@@ -110,21 +115,7 @@
 
     private async Task HandlePageChanged(int page)
     {
-        string? DefaultSearcherValue = null;
-        StateHasChanged();
-        if (DefaultSearcher)
-        {
-            DefaultSearcherValue = "heroes";
-        }
-        var response = await Http.GetFromJsonAsync<BaseResponse<PagedResponse<KnightViewModel>>>($"/knights?Name={filterName}&CharacterType={DefaultSearcherValue}&page={page}&pageSize={itemsPerPage}");
-        if (response?.Data != null)
-        {
-            knights = response.Data.Items.ToList() ;
-            totalKnights = response.Data.TotalCount ;
-        }
-        StateHasChanged();
-
+        currentPage = page;
+        await LoadKnights();
     }
-
-
 }
