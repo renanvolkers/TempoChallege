@@ -1,4 +1,4 @@
-﻿namespace Tempo.Knight.WebApp.Components.Pages.KnightForm
+﻿namespace Tempo.Knight.WebApp.Components.Pages.KnightForm.Create
 {
     public class CreateKnightViewModel
     {

@@ -1,0 +1,212 @@
+.knight-form {
+    background: #f4f1e0; /* Textura de pergaminho */
+    border: 2px solid #8b5e3c; /* Bordas ornamentadas */
+    border-radius: 10px; /* Bordas arredondadas */
+    padding: 20px;
+    width: 400px;
+    margin: auto;
+    font-family: "Cinzel", serif; /* Fonte estilizada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #4a3f35;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.containerBotton {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+}
+
+.gridList {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+}
+
+.button1 {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.bottom-left {
+    left: 10px;
+    top: 10px;
+    margin-top: 10px;
+}
+
+.input-left {
+    top: 10px;
+    margin-top: 10px;
+}
+
+.bottom-right {
+    right: 10px;
+    top: 10px;
+    margin-top: 10px;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4a3f35;
+}
+
+input, textarea {
+    width: 95%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #8b5e3c;
+    border-radius: 5px;
+    background: #f9f8f3;
+}
+
+select, dropList {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #8b5e3c;
+    border-radius: 5px;
+    background: #f9f8f3;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background: #8b5e3c;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+    button:hover {
+        background: #6d4529;
+    }
+
+.attributes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.attribute-checkbox {
+    width: calc(33.3333% - 10px);
+}
+
+/* Estilos dos cards */
+.cards-container {
+    display: flex;
+    overflow-x: auto;
+}
+
+.tribute-card {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+    .tribute-card img {
+        display: block;
+        width: 100px;
+        height: 200px;
+        border-radius: 5px 5px 0 0;
+        transition: filter 0.3s;
+    }
+
+    .tribute-card .card-content {
+        padding: 10px;
+    }
+
+    /* Efeito de desaturação */
+    .tribute-card img.selected {
+        filter: grayscale(0%);
+    }
+
+    .tribute-card img:not(.selected) {
+        filter: grayscale(100%);
+    }
+
+/* Estilo quando o card é selecionado */
+.card-selected {
+    border-color: #8b5e3c;
+}
+
+
+
+
+.knight-form {
+    height: 100vh !important;
+    overflow-y: scroll !important;
+}
+
+::-webkit-scrollbar {
+    width: 12px !important;
+    background-color: none !important; /* Cor de fundo do scrollbar */
+    opacity: 90% !important;
+}
+
+/* Estilo do polegar do scrollbar */
+.horizontalScroll::-webkit-scrollbar-thumb {
+    background: url('assets/sword-icon.png') no-repeat center center;
+    background-size: cover;
+    background-color: none !important; /* Cor do polegar */
+    /*border-radius:  !important;*/
+    box-shadow: none /* inset 0 0 0 6px #888;  Cor do polegar */;
+    width: 30px !important;
+}
+
+.verticalScroll::-webkit-scrollbar-thumb {
+    background-size: cover;
+    width: 12px;
+    background-color: #cf976d9c; /* Cor de fundo do scrollbar */
+    border-radius: 6px;
+    box-shadow: none /* inset 0 0 0 6px #888;  Cor do polegar */;
+    width: 12px !important;
+}
+
+    /* Estilo do polegar quando estiver sendo arrastado */
+::-webkit-scrollbar-thumb:active {
+        background-color: #555 !important; /* Cor do polegar ao ser arrastado */
+    }
+
+/* Estilo da trilha (track) do scrollbar */
+::-webkit-scrollbar-track {
+    background-color: #f5f5f5 !important; /* Cor da trilha */
+    border-radius: 6px !important;
+}
+
+/* Estilo do canto da trilha (track corner) */
+::-webkit-scrollbar-corner {
+    background-color: #f5f5f5 !important;
+}

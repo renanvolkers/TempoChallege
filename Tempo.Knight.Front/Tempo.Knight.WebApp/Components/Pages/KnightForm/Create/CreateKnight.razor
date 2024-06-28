@@ -1,121 +1,203 @@
-﻿@page "/Create-knight"
+﻿@page "/create-knight"
 @inject HttpClient Http
-<link href="ListKnight.css" rel="stylesheet">
 
-<div class="knight-form">
-    <div class="form-group">
-        <label>Find:</label>
-        <div>
-            <input type="checkbox" value="@DefaultSearcher" checked="@DefaultSearcher" @onchange="@((args) => SubmitForm(args))" /> Heroes
+<link href="CreateKnight.css" rel="stylesheet">
+
+<div class="knight-form verticalScroll">
+    <EditForm Model="knight" OnValidSubmit="SubmitForm">
+        <h1>Adicionar Cavaleiro</h1>
+
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <InputText id="name" @bind-Value="knight.Name" class="form-control" required />
         </div>
-        <div>
-            <input type="text" class="form-control" @bind="filterName" @oninput="OnInputChanged" placeholder="Name..." />
+        <div class="form-group">
+            <label for="nickname">Apelido:</label>
+            <InputText id="nickname" @bind-Value="knight.Nickname" class="form-control" required />
         </div>
-    </div>
-    <div class="knight-list">
-        <h2>Knights</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Weapons</th>
-                    <th>Attribute</th>
-                    <th>Attack</th>
-                    <th>Experience</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var knight in knights)
-                {
-                    <tr>
-                        <td>@knight.Name</td>
-                        <td>@knight.Age</td>
-                        <td>
-                            <ul>
-                                @foreach (var weapon in knight.Weapons)
-                                {
-                                    <li>@weapon.Name</li>
-                                }
-                            </ul>
-                        </td>
-                        <td>@knight.KeyAttribute</td>
-                        <td>@knight.Attack</td>
-                        <td>@knight.Experience</td>
-                        <td>
-                            <button @onclick="() => DeleteKnight(knight)">Delete</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <Pagination TotalItems="totalKnights" ItemsPerPage="itemsPerPage" OnPageChanged="HandlePageChanged" />
-    </div>
+        <div class="form-group">
+            <label for="birthday">Data de Nascimento:</label>
+            <InputDate id="birthday" @bind-Value="knight.Birthday" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <div class="dropList">
+                <label for="keyAttribute">Atributo Principal:</label>
+                <InputSelect id="keyAttribute" @bind-Value="knight.KeyAttribute" class="form-control" required>
+                    @foreach (var attribute in availableAttributes)
+                    {
+                        <option value=@(attribute)>@(attribute)</option>
+                    }
+                </InputSelect>
+            </div>
+            <div>
+                <InputNumber class="input-left form-control" @bind-Value="attrKeyValue" placeholder="g" required />
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="attributes">Atributos:</label>
+            <div class="attributes-grid">
+                <div class="cards-container horizontalScroll">
+                    @foreach (var tribute in tributes)
+                    {
+                        <div @onclick="() => ToggleCardSelection(tribute)" class="tribute-card @((tribute.Selected ? "card-selected" : ""))">
+                            <img src="@tribute.Image" alt="@tribute.Name" class="@((tribute.Selected ? "selected" : ""))">
+                            <div class="card-content">
+                                <h4>@tribute.Name</h4>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Arma:</label>
+            <div>
+                <InputText @bind-Value="weaponSingle.Name" placeholder="Nome da Arma" class="form-control" required />
+            </div>
+            <div>
+                <InputNumber @bind-Value="weaponSingle.Mod" placeholder="Modificador" class="input-left form-control" required />
+            </div>
+            <div class="containerBotton">
+                <button type="button" class="bottom-right btn btn-primary" @onclick="AddWeapon">Adicionar Arma</button>
+            </div>
+        </div>
+        <div class="cards-container">
+            <div class="form-group">
+                <label for="attributes">Armas:</label>
+                <div class="attributes-grid">
+                    <div class="cards-container">
+                        @foreach (var weapon in knight.Weapons)
+                        {
+                            <div class="tribute-card">
+                                <div class="card-content">
+                                    <label>Mod: @weapon.Mod</label>
+                                    <label>Name: @weapon.Name</label>
+                                    <label>Attrib: @weapon.Attr</label>
+                                    <button type="button" @onclick="() => RemoveWeapon(weapon)" class="btn btn-danger">Remover</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="containerBotton">
+            <div class="bottom-right"></div>
+            <button type="submit" class="bottom-left btn btn-primary">Pronto</button>
+        </div>
+    </EditForm>
 </div>
 
 @code {
-    private List<CreateKnightViewModel> knights = new();
-    private bool DefaultSearcher = false;
-    private int totalKnights;
-    private int itemsPerPage = 10;
-    private int currentPage = 1;
-    private string filterName = "";
-
-    protected override async Task OnInitializedAsync()
+    private Knight knight = new();
+    private List<string> availableAttributes = new List<string>
     {
-        await LoadKnights();
-    }
-
-    private async Task OnInputChanged(ChangeEventArgs e)
+        "Strength",
+        "Dexterity",
+        "Constitution",
+        "Intelligence",
+        "Wisdom",
+        "Charisma"
+    };
+    private int attrKeyValue;
+    private List<Tribute> tributes = new List<Tribute>
     {
-        filterName = e.Value?.ToString() ?? "";
-        await LoadKnights();
-    }
+        new Tribute { Name = "Dexterity", Image = "assets/Destreza.jpg" },
+        new Tribute { Name = "Wisdom", Image = "assets/Wisdom.png" },
+        new Tribute { Name = "Constitution", Image = "assets/Constitution.png" },
+        new Tribute { Name = "Strength", Image = "assets/forca.jpg" },
+        new Tribute { Name = "Intelligence", Image = "assets/Intelligence.png" },
+        new Tribute { Name = "Charisma", Image = "assets/logo.png" }
+,
+    };
+    private Weapon weaponSingle = new Weapon();
 
-    private async Task SubmitForm(ChangeEventArgs e)
+    private async Task SubmitForm()
     {
-        DefaultSearcher = (bool)e.Value!;
-        await LoadKnights();
-    }
+        knight.Attributes = new Dictionary<string, int> { { knight.KeyAttribute, attrKeyValue } };
 
-    private async Task LoadKnights()
-    {
-        string? DefaultSearcherValue = DefaultSearcher ? "heroes" : null;
         try
         {
-            var response = await Http.GetFromJsonAsync<BaseResponse<PagedResponse<CreateKnightViewModel>>>($"/knights?Name={filterName}&CharacterType={DefaultSearcherValue}&page={currentPage}&pageSize={itemsPerPage}");
-            if (response?.Data != null)
+            var response = await Http.PostAsJsonAsync("/api/knights", knight);
+            response.EnsureSuccessStatusCode();
+
+            // Handle successful response
+            ResetForm();
+        }
+        catch (HttpRequestException ex)
+        {
+            // Handle error
+            Console.Error.WriteLine($"Request error: {ex.Message}");
+        }
+    }
+
+    private void ToggleCardSelection(Tribute tribute)
+    {
+        this.tributes.ForEach(tribute_ =>
+        {
+            if (tribute.Name == tribute_.Name)
             {
-                knights = response.Data.Items.ToList();
-                totalKnights = response.Data.TotalCount;
+                tribute_.Selected = !tribute.Selected;
+                weaponSingle.Attr = tribute.Name;
             }
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine(ex.Message);
-            // handle error
-        }
-        StateHasChanged();
+            else
+            {
+                tribute_.Selected = false;
+            }
+        });
+
     }
 
-    private async Task DeleteKnight(CreateKnightViewModel knight)
+    private void AddWeapon()
     {
-        try
+        knight.Weapons.Add(new Weapon
+            {
+                Name = weaponSingle.Name,
+                Mod = weaponSingle.Mod,
+                Attr = weaponSingle.Attr,
+                Equipped = true
+            });
+        weaponSingle = new Weapon(); // Reset the weapon form
+    }
+
+    private void RemoveWeapon(Weapon weapon)
+    {
+        knight.Weapons.Remove(weapon);
+    }
+
+    private void ResetForm()
+    {
+        knight = new Knight();
+        weaponSingle = new Weapon();
+        attrKeyValue = 0;
+        foreach (var tribute in tributes)
         {
-            await Http.DeleteAsync($"/knights/{knight.Id}");
-            knights.Remove(knight);
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine(ex.Message);
-            // handle error
+            tribute.Selected = false;
         }
     }
 
-    private async Task HandlePageChanged(int page)
+    public class Knight
     {
-        currentPage = page;
-        await LoadKnights();
+        public string Name { get; set; } = string.Empty;
+        public string Nickname { get; set; } = string.Empty;
+        public DateTime Birthday { get; set; }
+        public string KeyAttribute { get; set; } = string.Empty;
+        public List<Weapon> Weapons { get; set; } = new();
+        public Dictionary<string, int> Attributes { get; set; } = new();
+    }
+
+    public class Weapon
+    {
+        public string Name { get; set; } = string.Empty;
+        public int Mod { get; set; }
+        public string Attr { get; set; } = string.Empty;
+        public bool Equipped { get; set; }
+    }
+
+    public class Tribute
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Image { get; set; } = string.Empty;
+        public bool Selected { get; set; }
     }
 }
