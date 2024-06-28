@@ -1,7 +1,14 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
+.top-row {
+    height: 3.5rem;
+    background: #8b5e3c !important;
+}
+.sidebar {
+    background: #9e7157 !important;
+    opacity:87%;
+}
 a, .btn-link {
     color: #006bb7;
 }

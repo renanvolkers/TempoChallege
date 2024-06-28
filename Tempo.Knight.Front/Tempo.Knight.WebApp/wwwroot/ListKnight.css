@@ -7,6 +7,18 @@
     font-family: "Cinzel", serif;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.page-item {
+    display: inline-block;
+    margin: 0 5px;
+}
+.activePage {
+    background-color: #8b5e3c !important; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    border-color: #007bff !important; /* Cor da borda */
+    opacity: 60%;
+    text-decoration: underline;
+    transition: color 0.3s, border-color 0.3s;
+}
 
 .form-group {
     margin-bottom: 15px;
@@ -31,6 +43,10 @@ button {
     transition: background-color 0.3s ease;
     font-family: "Cinzel", serif;
     margin: 2px;
+}
+.textFind {
+    border-radius: 4px !important;
+    margin: 9px !important;
 }
     button:hover {
         background: #6d4529;
@@ -214,3 +230,8 @@ td, th {
         font-weight: normal;
         color: #4a3f35;
     }
+
+
+
+
+
