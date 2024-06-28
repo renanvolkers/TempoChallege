@@ -55,7 +55,7 @@
 </div>
 
 @code {
-    private List<KnightViewModel> knights = new();
+    private List<CreateKnightViewModel> knights = new();
     private bool DefaultSearcher = false;
     private int totalKnights;
     private int itemsPerPage = 10;
@@ -84,7 +84,7 @@
         string? DefaultSearcherValue = DefaultSearcher ? "heroes" : null;
         try
         {
-            var response = await Http.GetFromJsonAsync<BaseResponse<PagedResponse<KnightViewModel>>>($"/knights?Name={filterName}&CharacterType={DefaultSearcherValue}&page={currentPage}&pageSize={itemsPerPage}");
+            var response = await Http.GetFromJsonAsync<BaseResponse<PagedResponse<CreateKnightViewModel>>>($"/knights?Name={filterName}&CharacterType={DefaultSearcherValue}&page={currentPage}&pageSize={itemsPerPage}");
             if (response?.Data != null)
             {
                 knights = response.Data.Items.ToList();
@@ -99,7 +99,7 @@
         StateHasChanged();
     }
 
-    private async Task DeleteKnight(KnightViewModel knight)
+    private async Task DeleteKnight(CreateKnightViewModel knight)
     {
         try
         {
