@@ -42,9 +42,9 @@ CREATE TABLE dbo.Weapons (
     Equipped BIT NOT NULL,
     KnightId UNIQUEIDENTIFIER,
 	CreatedBy NVARCHAR(255) NOT NULL,
-	CreatedAt DATETIME NOT NULL,
+	CreatedAt DATETIME2 NOT NULL,
     ModifiedBy NVARCHAR(255) NOT NULL,
-    ModifiedAt DATETIME, 
+    ModifiedAt DATETIME2, 
     FOREIGN KEY (KnightId) REFERENCES Knights(Id)
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE dbo.Attributes (
     Name NVARCHAR(255) NOT NULL,   
 	Value INT NOT NULL,
 	CreatedBy NVARCHAR(255) NOT NULL,
-	CreatedAt DATETIME NOT NULL,
+	CreatedAt DATETIME2 NOT NULL,
     ModifiedBy NVARCHAR(255) NOT NULL,
     ModifiedAt DATETIME 
 
@@ -66,9 +66,9 @@ CREATE TABLE dbo.KnightAttributes (
 	KnightId UNIQUEIDENTIFIER NOT NULL,
     AttributeId UNIQUEIDENTIFIER NOT NULL,
 	CreatedBy NVARCHAR(255) NOT NULL,
-	CreatedAt DATETIME NOT NULL,
+	CreatedAt DATETIME2 NOT NULL,
     ModifiedBy NVARCHAR(255) NOT NULL,
-    ModifiedAt DATETIME, 
+    ModifiedAt DATETIME2, 
     PRIMARY KEY (KnightId, AttributeId),
     FOREIGN KEY (KnightId) REFERENCES Knights(Id),
     FOREIGN KEY (AttributeId) REFERENCES Attributes(Id)

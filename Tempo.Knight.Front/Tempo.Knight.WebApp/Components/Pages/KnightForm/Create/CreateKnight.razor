@@ -1,31 +1,32 @@
 ﻿@page "/create-knight"
+@using Tempo.Knight.Dto.Dtos.Weapon
 @inject HttpClient Http
 
 <link href="CreateKnight.css" rel="stylesheet">
 
 <div class="knight-form verticalScroll">
-    <EditForm Model="knight" OnValidSubmit="SubmitForm">
+    <EditForm Model="createKnightViewModel" OnValidSubmit="SubmitForm">
         <h1>Adicionar Cavaleiro</h1>
 
         <div class="form-group">
             <label for="name">Nome:</label>
-            <InputText id="name" @bind-Value="knight.Name" class="form-control" required />
+            <InputText id="name" @bind-Value="createKnightViewModel.knightViewModel.Name" class="form-control" required />
         </div>
         <div class="form-group">
             <label for="nickname">Apelido:</label>
-            <InputText id="nickname" @bind-Value="knight.Nickname" class="form-control" required />
+            <InputText id="nickname" @bind-Value="createKnightViewModel.knightViewModel.Nickname" class="form-control" required />
         </div>
         <div class="form-group">
             <label for="birthday">Data de Nascimento:</label>
-            <InputDate id="birthday" @bind-Value="knight.Birthday" class="form-control" required />
+            <InputDate id="birthday" @bind-Value="createKnightViewModel.knightViewModel.Birthday" class="form-control" required />
         </div>
         <div class="form-group">
             <div class="dropList">
                 <label for="keyAttribute">Atributo Principal:</label>
-                <InputSelect id="keyAttribute" @bind-Value="knight.KeyAttribute" class="form-control" required>
-                    @foreach (var attribute in availableAttributes)
+                <InputSelect id="keyAttribute" @bind-Value="createKnightViewModel.knightViewModel.KeyAttribute" class="form-control" required>
+                    @foreach (var attribute in createKnightViewModel.tributes)
                     {
-                        <option value=@(attribute)>@(attribute)</option>
+                        <option value=@(attribute.Name)>@(attribute.Name)</option>
                     }
                 </InputSelect>
             </div>
@@ -37,10 +38,10 @@
             <label for="attributes">Atributos:</label>
             <div class="attributes-grid">
                 <div class="cards-container horizontalScroll">
-                    @foreach (var tribute in tributes)
+                    @foreach (var tribute in createKnightViewModel.tributes)
                     {
-                        <div @onclick="() => ToggleCardSelection(tribute)" class="tribute-card @((tribute.Selected ? "card-selected" : ""))">
-                            <img src="@tribute.Image" alt="@tribute.Name" class="@((tribute.Selected ? "selected" : ""))">
+                        <div @onclick="() => createKnightViewModel.ToggleCardSelection(tribute)" class="tribute-card @((tribute.Selected ? "card-selected" : ""))">
+                            <img src="assets/@(tribute.Name).png"alt="@tribute.Name" class="@((tribute.Selected ? "selected" : ""))">
                             <div class="card-content">
                                 <h4>@tribute.Name</h4>
                             </div>
@@ -52,13 +53,13 @@
         <div class="form-group">
             <label>Arma:</label>
             <div>
-                <InputText @bind-Value="weaponSingle.Name" placeholder="Nome da Arma" class="form-control" required />
+                <InputText @bind-Value="createKnightViewModel.WeaponSingle.Name" placeholder="Nome da Arma" class="form-control" required />
             </div>
             <div>
-                <InputNumber @bind-Value="weaponSingle.Mod" placeholder="Modificador" class="input-left form-control" required />
+                <InputNumber @bind-Value="createKnightViewModel.WeaponSingle.Mod" placeholder="Modificador" class="input-left form-control" required />
             </div>
             <div class="containerBotton">
-                <button type="button" class="bottom-right btn btn-primary" @onclick="AddWeapon">Adicionar Arma</button>
+                <button type="button" class="bottom-right btn btn-primary" @onclick="createKnightViewModel.AddWeapon">Adicionar Arma</button>
             </div>
         </div>
         <div class="cards-container">
@@ -66,14 +67,14 @@
                 <label for="attributes">Armas:</label>
                 <div class="attributes-grid">
                     <div class="cards-container">
-                        @foreach (var weapon in knight.Weapons)
+                        @foreach (var weapon in createKnightViewModel.knightViewModel.Weapons)
                         {
                             <div class="tribute-card">
                                 <div class="card-content">
                                     <label>Mod: @weapon.Mod</label>
                                     <label>Name: @weapon.Name</label>
                                     <label>Attrib: @weapon.Attr</label>
-                                    <button type="button" @onclick="() => RemoveWeapon(weapon)" class="btn btn-danger">Remover</button>
+                                    <button type="button" @onclick="() => createKnightViewModel.RemoveWeapon(weapon)" class="btn btn-danger">Remover</button>
                                 </div>
                             </div>
                         }
@@ -89,36 +90,17 @@
 </div>
 
 @code {
-    private Knight knight = new();
-    private List<string> availableAttributes = new List<string>
-    {
-        "Strength",
-        "Dexterity",
-        "Constitution",
-        "Intelligence",
-        "Wisdom",
-        "Charisma"
-    };
+    private CreateKnightViewModel createKnightViewModel = new();
+
     private int attrKeyValue;
-    private List<Tribute> tributes = new List<Tribute>
-    {
-        new Tribute { Name = "Dexterity", Image = "assets/Destreza.jpg" },
-        new Tribute { Name = "Wisdom", Image = "assets/Wisdom.png" },
-        new Tribute { Name = "Constitution", Image = "assets/Constitution.png" },
-        new Tribute { Name = "Strength", Image = "assets/forca.jpg" },
-        new Tribute { Name = "Intelligence", Image = "assets/Intelligence.png" },
-        new Tribute { Name = "Charisma", Image = "assets/logo.png" }
-,
-    };
-    private Weapon weaponSingle = new Weapon();
 
     private async Task SubmitForm()
     {
-        knight.Attributes = new Dictionary<string, int> { { knight.KeyAttribute, attrKeyValue } };
+        createKnightViewModel.knightViewModel.Attributes.Add( new AttributeViewModel() { Name=createKnightViewModel.knightViewModel.KeyAttribute,Value= attrKeyValue  });
 
         try
         {
-            var response = await Http.PostAsJsonAsync("/api/knights", knight);
+            var response = await Http.PostAsJsonAsync("/knights", createKnightViewModel.knightViewModel);
             response.EnsureSuccessStatusCode();
 
             // Handle successful response
@@ -131,73 +113,17 @@
         }
     }
 
-    private void ToggleCardSelection(Tribute tribute)
-    {
-        this.tributes.ForEach(tribute_ =>
-        {
-            if (tribute.Name == tribute_.Name)
-            {
-                tribute_.Selected = !tribute.Selected;
-                weaponSingle.Attr = tribute.Name;
-            }
-            else
-            {
-                tribute_.Selected = false;
-            }
-        });
-
-    }
-
-    private void AddWeapon()
-    {
-        knight.Weapons.Add(new Weapon
-            {
-                Name = weaponSingle.Name,
-                Mod = weaponSingle.Mod,
-                Attr = weaponSingle.Attr,
-                Equipped = true
-            });
-        weaponSingle = new Weapon(); // Reset the weapon form
-    }
-
-    private void RemoveWeapon(Weapon weapon)
-    {
-        knight.Weapons.Remove(weapon);
-    }
 
     private void ResetForm()
     {
-        knight = new Knight();
-        weaponSingle = new Weapon();
+        createKnightViewModel = new CreateKnightViewModel();
+        createKnightViewModel.WeaponSingle = new Dto.Dtos.Weapon.WeaponViewModel();
         attrKeyValue = 0;
-        foreach (var tribute in tributes)
+        foreach (var tribute in createKnightViewModel.tributes)
         {
             tribute.Selected = false;
         }
     }
 
-    public class Knight
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Nickname { get; set; } = string.Empty;
-        public DateTime Birthday { get; set; }
-        public string KeyAttribute { get; set; } = string.Empty;
-        public List<Weapon> Weapons { get; set; } = new();
-        public Dictionary<string, int> Attributes { get; set; } = new();
-    }
 
-    public class Weapon
-    {
-        public string Name { get; set; } = string.Empty;
-        public int Mod { get; set; }
-        public string Attr { get; set; } = string.Empty;
-        public bool Equipped { get; set; }
-    }
-
-    public class Tribute
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Image { get; set; } = string.Empty;
-        public bool Selected { get; set; }
-    }
 }
