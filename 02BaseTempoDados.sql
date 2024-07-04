@@ -1,6 +1,6 @@
 USE TempoChallengeKnights
 GO
-
+WAITFOR DELAY '00:00:02';
 -- Inserir um Knight com informações de auditoria
 INSERT INTO Knights (Id, Name, Nickname, Birthday, KeyAttribute, CharacterType, HallOfHeroes, CreatedBy, CreatedAt, ModifiedBy, ModifiedAt)
 VALUES
@@ -20,6 +20,10 @@ VALUES
     (NEWID(), 'Nimue', 'The Mysterious', '1992-10-20', 'Mystery', 'Sorceress', 0, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Perceval', 'The Righteous', '1977-06-28', 'Justice', 'Paladin', 1, 'system', GETDATE(), 'system', GETDATE());
 
+IF (SELECT COUNT(*) FROM Knights)  > = 15
+BEGIN
+	 PRINT 'Knights registers sucess.';
+END
 
 -- Inserir um Attribute com informações de auditoria
 INSERT INTO Attributes (Id, Name, Value, CreatedBy, CreatedAt, ModifiedBy, ModifiedAt)
@@ -40,6 +44,10 @@ VALUES
     (NEWID(), 'Mystery', 86, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Justice', 84, 'system', GETDATE(), 'system', GETDATE());
 
+IF (SELECT COUNT(*) FROM Attributes)  > = 15
+BEGIN
+	 PRINT 'Attributes registers sucess.';
+END
 -- Inserir uma Weapon com informações de auditoria
 INSERT INTO Weapons (Id, Name, Mod, Attr, Equipped, KnightId, CreatedBy, CreatedAt, ModifiedBy, ModifiedAt)
 VALUES
@@ -49,24 +57,33 @@ VALUES
     (NEWID(), 'Shield of Faith', 5, 'Faith', 1, (SELECT TOP 1 Id FROM Knights WHERE Name = 'Bors'), 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Sword of Justice', 9, 'Justice', 1, (SELECT TOP 1 Id FROM Knights WHERE Name = 'Perceval'), 'system', GETDATE(), 'system', GETDATE());
 
+
+IF (SELECT COUNT(*) FROM Weapons)  > = 5
+BEGIN
+	 PRINT 'Weapons registers sucess.';
+END
 -- Inserir um KnightAttribute com informações de auditoria
 INSERT INTO KnightAttributes (Id, KnightId, AttributeId, CreatedBy, CreatedAt, ModifiedBy, ModifiedAt)
 VALUES
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Arthur'), (SELECT Id FROM Attributes WHERE Name = 'Strength'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Lancelot'), (SELECT Id FROM Attributes WHERE Name = 'Courage'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Galahad'), (SELECT Id FROM Attributes WHERE Name = 'Virtue'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Merlin'), (SELECT Id FROM Attributes WHERE Name = 'Wisdom'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Guinevere'), (SELECT Id FROM Attributes WHERE Name = 'Charm'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Tristan'), (SELECT Id FROM Attributes WHERE Name = 'Loyalty'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Isolde'), (SELECT Id FROM Attributes WHERE Name = 'Love'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Gawain'), (SELECT Id FROM Attributes WHERE Name = 'Valor'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Mordred'), (SELECT Id FROM Attributes WHERE Name = 'Deception'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Percival'), (SELECT Id FROM Attributes WHERE Name = 'Quest'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Morgana'), (SELECT Id FROM Attributes WHERE Name = 'Magic'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Bors'), (SELECT Id FROM Attributes WHERE Name = 'Faith'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Elaine'), (SELECT Id FROM Attributes WHERE Name = 'Grace'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Nimue'), (SELECT Id FROM Attributes WHERE Name = 'Mystery'), 'system', GETDATE(), 'system', GETDATE()),
-    (NEWID(), (SELECT Id FROM Knights WHERE Name = 'Perceval'), (SELECT Id FROM Attributes WHERE Name = 'Justice'), 'system', GETDATE(), 'system', GETDATE());
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Arthur'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Strength'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Lancelot'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Courage'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Galahad'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Virtue'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Merlin'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Wisdom'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Guinevere'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Charm'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Tristan'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Loyalty'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Isolde'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Love'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Gawain'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Valor'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Mordred'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Deception'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Percival'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Quest'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Morgana'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Magic'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Bors'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Faith'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Elaine'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Grace'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Nimue'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Mystery'), 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), (SELECT TOP 1 Id FROM Knights WHERE Name = 'Perceval'), (SELECT TOP 1 Id FROM Attributes WHERE Name = 'Justice'), 'system', GETDATE(), 'system', GETDATE());
 
+IF (SELECT COUNT(*) FROM KnightAttributes)  > = 15
+BEGIN
+	 PRINT 'KnightAttributes registers sucess.';
+END
 
 GO

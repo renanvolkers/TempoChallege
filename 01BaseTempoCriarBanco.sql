@@ -1,19 +1,25 @@
- CREATE DATABASE TempoChallengeKnights
 -- Declara o name do database
 DECLARE @DatabaseName NVARCHAR(128) = 'TempoChallengeKnights';
-
--- Verifica if o database já existe
+-- Verifica se o database já existe
 IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = @DatabaseName)
 BEGIN
-    CREATE DATABASE TempoChallengeKnights
+    CREATE DATABASE TempoChallengeKnights;
+    PRINT 'Database TempoChallengeKnights created successfully.';
+END
+ELSE
+BEGIN
+    PRINT 'Database TempoChallengeKnights already exists. Passo 1';
 END
 
-
-
 GO
+DECLARE @DatabaseName NVARCHAR(128) = 'TempoChallengeKnights';
 
-USE TempoChallengeKnights
-GO
+-- Altera o contexto para o banco de dados se ele existir
+IF EXISTS (SELECT * FROM sys.databases WHERE name = @DatabaseName)
+BEGIN
+    USE TempoChallengeKnights;
+    PRINT 'Changed database context to TempoChallengeKnights. Passo 2';
+END
 
 
 -- Tabela Knight
@@ -73,4 +79,6 @@ CREATE TABLE dbo.KnightAttributes (
     FOREIGN KEY (KnightId) REFERENCES Knights(Id),
     FOREIGN KEY (AttributeId) REFERENCES Attributes(Id)
 );
+
+WAITFOR DELAY '00:00:05';
 GO

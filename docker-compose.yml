@@ -8,20 +8,17 @@ services:
       MSSQL_PID: "Developer"
     ports:
       - "${DOCKER_SQL_PORT:-1433}:1433"
-
+  
   mssqltools:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: mcr.microsoft.com/mssql-tools
     depends_on:
       - sqlserver
-    volumes:
-      - ./01-BaseTempo.sql:/tmp/01-BaseTempo.sql
-      - ./02-BaseTempo.sql:/tmp/02-BaseTempo.sql
-      - ./init-baseTempo.sh:/tmp/init-baseTempo.sh
-    command: /bin/bash ./tmp/init-baseTempo.sh    
-
 networks:
     TempoKnights_default:
-      external: true
+              external: true
 
 
 
