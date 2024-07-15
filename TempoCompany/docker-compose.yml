@@ -16,4 +16,4 @@ services:
   
 networks:
   TempoKnights_default:
-    external: true
+    driver: bridge
