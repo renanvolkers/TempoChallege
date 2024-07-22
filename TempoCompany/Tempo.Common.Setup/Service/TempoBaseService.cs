@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
 using Tempo.Common.Setup.Api;
 using Tempo.Common.Setup.Error;
@@ -27,11 +28,13 @@ namespace Tempo.Common.Setup.Service
 
         protected IMapper _mapper;
         protected TRepository _repository;
-    
-        public TempoBaseService(IMapper mapper, TRepository repository)
+        protected IHttpContextAccessor _httpContextAccessor;
+
+        public TempoBaseService(IMapper mapper, TRepository repository, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _repository = repository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public virtual async Task<BaseResponse<IResponse>> AddAsync(BaseRequest<IRequest> model, params Expression<Func<IModel, object>>[] references)
@@ -44,6 +47,11 @@ namespace Tempo.Common.Setup.Service
                 var newEntity = await _repository.AddAsync(domainEntity);
                 return _mapper.Map<BaseResponse<IResponse>>(newEntity);
 
+        }
+
+        public virtual string GetUser()
+        {
+            return _httpContextAccessor?.HttpContext?.User?.Identity?.Name ?? "Anonymous";
         }
 
         public virtual async Task<BaseResponse<List<IResponse>>> GetAllAsync(Expression<Func<IModel, bool>>? where = null, params string[] includes)
