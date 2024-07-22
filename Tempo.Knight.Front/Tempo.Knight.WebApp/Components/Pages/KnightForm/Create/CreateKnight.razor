@@ -5,24 +5,29 @@
 <link href="CreateKnight.css" rel="stylesheet">
 
 <div class="knight-form verticalScroll">
+    @if (!string.IsNullOrEmpty(responseMessage))
+    {
+        <div @ref="errorContainer" tabindex="-1" class="alert @(success ? "alert-success" : "alert-danger")">@responseMessage</div>
+    }
+
     <EditForm Model="createKnightViewModel" OnValidSubmit="SubmitForm">
-        <h1>Adicionar Cavaleiro</h1>
+        <h1>Add Knight</h1>
 
         <div class="form-group">
-            <label for="name">Nome:</label>
+            <label for="name">Name:</label>
             <InputText id="name" @bind-Value="createKnightViewModel.knightViewModel.Name" class="form-control" required />
         </div>
         <div class="form-group">
-            <label for="nickname">Apelido:</label>
+            <label for="nickname">NickName:</label>
             <InputText id="nickname" @bind-Value="createKnightViewModel.knightViewModel.Nickname" class="form-control" required />
         </div>
         <div class="form-group">
-            <label for="birthday">Data de Nascimento:</label>
+            <label for="birthday">Birthday:</label>
             <InputDate id="birthday" @bind-Value="createKnightViewModel.knightViewModel.Birthday" class="form-control" required />
         </div>
         <div class="form-group">
             <div class="dropList">
-                <label for="keyAttribute">Atributo Principal:</label>
+                <label for="keyAttribute">Attribute Main:</label>
                 <InputSelect id="keyAttribute" @bind-Value="createKnightViewModel.knightViewModel.KeyAttribute" class="form-control" required>
                     @foreach (var attribute in createKnightViewModel.tributes)
                     {
@@ -35,7 +40,7 @@
             </div>
         </div>
         <div class="form-group ">
-            <label for="attributes">Atributos:</label>
+            <label for="attributes">Attributes:</label>
             <div class="attributes-grid">
                 <div class="cards-container horizontalScroll">
                     @foreach (var tribute in createKnightViewModel.tributes)
@@ -51,20 +56,20 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Arma:</label>
+            <label>Weapon:</label>
             <div>
-                <InputText @bind-Value="createKnightViewModel.WeaponSingle.Name" placeholder="Nome da Arma" class="form-control" required />
+                <InputText @bind-Value="createKnightViewModel.WeaponSingle.Name" placeholder="Nome da Arma" class="form-control"  />
             </div>
             <div>
-                <InputNumber @bind-Value="createKnightViewModel.WeaponSingle.Mod" placeholder="Modificador" class="input-left form-control" required />
+                <InputNumber @bind-Value="createKnightViewModel.WeaponSingle.Mod" placeholder="Modificador" class="input-left form-control"  />
             </div>
             <div class="containerBotton">
-                <button type="button" class="bottom-right btn btn-primary" @onclick="createKnightViewModel.AddWeapon">Adicionar Arma</button>
+                <button type="button" class="bottom-right btn btn-primary" @onclick="createKnightViewModel.AddWeapon">Add Weapon</button>
             </div>
         </div>
         <div class="cards-container">
             <div class="form-group">
-                <label for="attributes">Armas:</label>
+                <label for="attributes">Weapons:</label>
                 <div class="attributes-grid">
                     <div class="cards-container">
                         @foreach (var weapon in createKnightViewModel.knightViewModel.Weapons)
@@ -84,7 +89,7 @@
         </div>
         <div class="containerBotton">
             <div class="bottom-right"></div>
-            <button type="submit" class="bottom-left btn btn-primary">Pronto</button>
+            <button type="submit" class="bottom-left btn btn-primary">Already</button>
         </div>
     </EditForm>
 </div>
@@ -93,24 +98,43 @@
     private CreateKnightViewModel createKnightViewModel = new();
 
     private int attrKeyValue;
+    private string responseMessage="";
+    private bool success = true;
+    private Timer? _timer;
+    private ElementReference errorContainer;
+    private bool shouldScrollToError;
 
     private async Task SubmitForm()
     {
-        createKnightViewModel.knightViewModel.Attributes.Add( new AttributeViewModel() { Name=createKnightViewModel.knightViewModel.KeyAttribute,Value= attrKeyValue  });
+        createKnightViewModel.knightViewModel.Attributes.Clear();
+        createKnightViewModel.knightViewModel.Attributes.Add(new AttributeViewModel { 
+                                                                Name = createKnightViewModel.knightViewModel.KeyAttribute, 
+                                                                Value = attrKeyValue });
 
-        try
+
+        var response = await Http.PostAsJsonAsync("/knights", createKnightViewModel.knightViewModel);
+        if (response.IsSuccessStatusCode)
         {
-            var response = await Http.PostAsJsonAsync("/knights", createKnightViewModel.knightViewModel);
-            response.EnsureSuccessStatusCode();
+            responseMessage = "Knight created successfully!";
+            success = true;
+            SetTimer();
+            shouldScrollToError = true;
 
-            // Handle successful response
             ResetForm();
         }
-        catch (HttpRequestException ex)
+        else
         {
-            // Handle error
-            Console.Error.WriteLine($"Request error: {ex.Message}");
+            var errorResponse = await response.Content.ReadFromJsonAsync<List<ErrorDetail>>();
+            responseMessage = errorResponse != null && errorResponse.Any()
+                ? string.Join(", ", errorResponse.Select(e => $"{e.PropertyName}: {e.ErrorMesage}"))
+                : "Error creating Knight!";
+            success = false;
+            SetTimer();
+            shouldScrollToError = true;
+            Console.Error.WriteLine($"Request error: {responseMessage}");
         }
+
+
     }
 
 
@@ -124,6 +148,38 @@
             tribute.Selected = false;
         }
     }
+    public async ValueTask DisposeAsync()
+    {
+       await _timer!.DisposeAsync();
+    }
+    private void SetTimer()
+    {
+        _timer = new Timer(ClearSuccessMessage, null, 15000, Timeout.Infinite); // 3000ms = 3 seconds
+    }
 
+    private void ClearSuccessMessage(object? state)
+    {
+        responseMessage = string.Empty;
+        InvokeAsync(StateHasChanged);
+    }
+    private async Task ScrollToError()
+    {
+        await Task.Delay(1000); // Pequeno atraso para garantir que o elemento está disponível
 
+        await errorContainer.FocusAsync(); // Foca no contêiner de erro para rolar até ele
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldScrollToError)
+        {
+            shouldScrollToError = false;
+            await ScrollToError();
+        }
+    }
+
+    private class ErrorDetail
+    {
+        public string PropertyName { get; set; } = "";
+        public string ErrorMesage { get; set; } = "";
+    }
 }

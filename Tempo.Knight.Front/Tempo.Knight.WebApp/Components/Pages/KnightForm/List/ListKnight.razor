@@ -4,6 +4,11 @@
 <link href="ListKnight.css" rel="stylesheet">
 
 <div class="knight-form">
+
+    @if (!string.IsNullOrEmpty(responseMessage))
+    {
+        <div @ref="errorContainer" tabindex="-1" class="alert @(success ? "alert-success" : "alert-danger")">@responseMessage</div>
+    }
     <div class="form-group">
         <label>Find:</label>
         <div>
@@ -62,6 +67,11 @@
     private int itemsPerPage = 10;
     private int currentPage = 1;
     private string filterName = "";
+    private string responseMessage = "";
+    private bool success = true;
+    private Timer? _timer ;
+    private ElementReference errorContainer;
+    private bool shouldScrollToError;
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,8 +104,13 @@
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine(ex.Message);
-            // handle error
+            responseMessage = "Error List Knights !";
+            success = false;
+            SetTimer();
+            shouldScrollToError = true;
+
+            // Handle error
+            Console.Error.WriteLine($"Request error: {ex.Message}");
         }
         StateHasChanged();
     }
@@ -109,8 +124,13 @@
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine(ex.Message);
-            // handle error
+            responseMessage = "Error delete Knights !";
+            success = false;
+            SetTimer();
+            shouldScrollToError = true;
+
+            // Handle error
+            Console.Error.WriteLine($"Request error: {ex.Message}");
         }
     }
 
@@ -118,5 +138,33 @@
     {
         currentPage = page;
         await LoadKnights();
+    }
+    public async ValueTask DisposeAsync()
+    {
+       await _timer!.DisposeAsync();
+    }
+    private void SetTimer()
+    {
+        _timer = new Timer(ClearSuccessMessage, null, 9000, Timeout.Infinite); // 3000ms = 3 seconds
+    }
+
+    private void ClearSuccessMessage(object? state)
+    {
+        responseMessage = string.Empty;
+        InvokeAsync(StateHasChanged);
+    }
+    private async Task ScrollToError()
+    {
+        await Task.Delay(1000); // Pequeno atraso para garantir que o elemento está disponível
+
+        await errorContainer.FocusAsync(); // Foca no contêiner de erro para rolar até ele
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldScrollToError)
+        {
+            shouldScrollToError = false;
+            await ScrollToError();
+        }
     }
 }
