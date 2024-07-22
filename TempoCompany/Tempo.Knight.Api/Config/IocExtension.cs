@@ -18,6 +18,7 @@ namespace Tempo.Knight.Api.Config
     {
         public static void AddSevicesTempo(this IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddScoped<IKnightsRepository, KnightsRepository>();
             services.AddScoped<IKnightService, KnightService>();
             services.AddScoped<IFilterStrategy<Domain.Model.Knight>, FilterKnightsByHeroesSpecification>();

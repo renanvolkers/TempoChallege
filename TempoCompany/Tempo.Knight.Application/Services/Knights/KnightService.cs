@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
-using Tempo.Knight.Application.Domain.Knights;
-using Tempo.Knight.Domain.Model;
-using Tempo.Knight.Domain.Model.Calculator;
-using Tempo.Knight.Domain.Repositories;
-using Tempo.Knight.Dto.Requests.Knight;
-using Tempo.Knight.Dto.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq.Expressions;
 using Tempo.Common.Setup.Api;
 using Tempo.Common.Setup.Error;
 using Tempo.Common.Setup.Service;
-using Microsoft.AspNetCore.Identity;
-using Tempo.Knight.Application.Validations.Knight;
-using FluentValidation.Results;
-using System.Linq;
 using Tempo.Common.Setup.Util.Extension;
+using Tempo.Knight.Application.Domain.Knights;
+using Tempo.Knight.Application.Validations.Knight;
+using Tempo.Knight.Domain.Model;
+using Tempo.Knight.Domain.Model.Calculator;
+using Tempo.Knight.Domain.Repositories;
+using Tempo.Knight.Dto.Requests.Knight;
+using Tempo.Knight.Dto.Responses;
 
 namespace Tempo.Knight.Application.Services.Knights
 {
@@ -31,14 +29,16 @@ namespace Tempo.Knight.Application.Services.Knights
         private readonly IManagerCalculator<Knight.Domain.Model.Knight, ResponseKnight> _managerCalculator;
         private readonly IAttributeRepository _attributeRepository;
         private readonly IKnightAttributeRepository _knightAttributeRepository;
+        
 
-        public KnightService(IMapper mapper, IKnightsRepository knightsRepository, IAttributeRepository attributeRepository, IKnightAttributeRepository knightAttributeRepository, IFilterStrategy<Knight.Domain.Model.Knight> filterStrategy,
-            IManagerCalculator<Knight.Domain.Model.Knight, ResponseKnight> managerCalculator) : base(mapper, knightsRepository)
+        public KnightService(IMapper mapper, IKnightsRepository knightsRepository, IHttpContextAccessor httpContextAccessor, IAttributeRepository attributeRepository, IKnightAttributeRepository knightAttributeRepository, IFilterStrategy<Knight.Domain.Model.Knight> filterStrategy,
+            IManagerCalculator<Knight.Domain.Model.Knight, ResponseKnight> managerCalculator) : base(mapper, knightsRepository, httpContextAccessor)
         {
             _filterStrategy = filterStrategy;
             _managerCalculator = managerCalculator;
             _attributeRepository = attributeRepository;
             _knightAttributeRepository = knightAttributeRepository;
+
         }
 
         public async Task<BaseResponse<PagedResponse<ResponseKnight>>> GetFilterAsync(RequestFilterKnight requestFilter, int? page, int? pageSize)
@@ -94,12 +94,15 @@ namespace Tempo.Knight.Application.Services.Knights
             {
                 return new BaseResponse<ResponseKnight>(model.ErrorMessage);
             }
+            
 
             var domainEntity = _mapper.Map<Knight.Domain.Model.Knight>(model.Data);
-            var newEntity = await _repository.AddAsync(domainEntity);
+            domainEntity.CreatedBy = GetUser();
+            domainEntity.Weapons.ToList().ForEach(x => { x.CreatedBy = GetUser(); });
+            domainEntity = await _repository.AddAsync(domainEntity);
             var addAttribs = attributes.Where(x => requestKnight.Attributes.Select(x => x.Name).Contains(x.Name)).Select(x=>x.Id).ToList();
             await _knightAttributeRepository.AddAsync(domainEntity.Id, addAttribs, model.Use);
-            return _mapper.Map<BaseResponse<ResponseKnight>>(newEntity);
+            return _mapper.Map<BaseResponse<ResponseKnight>>(domainEntity);
 
         }
 
