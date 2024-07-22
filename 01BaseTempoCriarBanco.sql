@@ -33,9 +33,9 @@ CREATE TABLE dbo.Knights (
     HallOfHeroes BIT DEFAULT 0 NOT NULL,
 	CombatTraining float DEFAULT 0.0 NOT NULL,
 	CreatedBy NVARCHAR(255) NOT NULL,
-	CreatedAt DATETIME NOT NULL,
-    ModifiedBy NVARCHAR(255) NOT NULL,
-    ModifiedAt DATETIME 
+	CreatedAt DATETIME2 NOT NULL,
+    ModifiedBy NVARCHAR(255) ,
+    ModifiedAt DATETIME2 
 	 
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE dbo.Weapons (
     KnightId UNIQUEIDENTIFIER,
 	CreatedBy NVARCHAR(255) NOT NULL,
 	CreatedAt DATETIME2 NOT NULL,
-    ModifiedBy NVARCHAR(255) NOT NULL,
+    ModifiedBy NVARCHAR(255) ,
     ModifiedAt DATETIME2, 
     FOREIGN KEY (KnightId) REFERENCES Knights(Id)
 );
@@ -61,8 +61,8 @@ CREATE TABLE dbo.Attributes (
 	Value INT NOT NULL,
 	CreatedBy NVARCHAR(255) NOT NULL,
 	CreatedAt DATETIME2 NOT NULL,
-    ModifiedBy NVARCHAR(255) NOT NULL,
-    ModifiedAt DATETIME 
+    ModifiedBy NVARCHAR(255) ,
+    ModifiedAt DATETIME2 
 
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE dbo.KnightAttributes (
     AttributeId UNIQUEIDENTIFIER NOT NULL,
 	CreatedBy NVARCHAR(255) NOT NULL,
 	CreatedAt DATETIME2 NOT NULL,
-    ModifiedBy NVARCHAR(255) NOT NULL,
+    ModifiedBy NVARCHAR(255) ,
     ModifiedAt DATETIME2, 
     PRIMARY KEY (KnightId, AttributeId),
     FOREIGN KEY (KnightId) REFERENCES Knights(Id),

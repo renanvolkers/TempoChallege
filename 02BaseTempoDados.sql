@@ -42,6 +42,10 @@ VALUES
     (NEWID(), 'Faith', 91, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Grace', 78, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Mystery', 86, 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), 'Dexterity', 76, 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), 'Constitution', 76, 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), 'Intelligence', 76, 'system', GETDATE(), 'system', GETDATE()),
+    (NEWID(), 'Charisma', 56, 'system', GETDATE(), 'system', GETDATE()),
     (NEWID(), 'Justice', 84, 'system', GETDATE(), 'system', GETDATE());
 
 IF (SELECT COUNT(*) FROM Attributes)  > = 15
